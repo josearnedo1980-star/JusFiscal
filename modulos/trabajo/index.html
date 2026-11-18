@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trabajo | JUSFISCAL</title>
+  <link rel="stylesheet" href="../../css/jusfiscal.css" />
+  <script src="../../js/jusfiscal-core.js"></script>
+</head>
+
+<body>
+
+  <div class="jf-module-wrap">
+
+    <header class="jf-header">
+      <div class="jf-brand">
+        <img src="../../assets/logo-jusfiscal.svg" alt="JUSFISCAL" class="jf-logo" />
+        <div class="jf-title-group">
+          <span class="jf-app">JUSFISCAL · Poder Judicial de Tucumán</span>
+          <h1 class="jf-module">Trabajo</h1>
+          <span class="jf-subtitle">Liquidador Oficial de Planilla Fiscal y Decreto SAE</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="../../liquidar.html" class="btn-jf">← Cambiar Fuero</a>
+        <a href="../../index.html" class="btn-jf">Inicio</a>
+      </div>
+    </header>
+
+    <div class="accordion-list">
+
+      <!-- ACORDEÓN 1 -->
+      <div class="accordion-item open" id="acc-1">
+        <button type="button" class="accordion-header" onclick="toggleAccordion('acc-1')">
+          <div class="accordion-title-wrap">
+            <span class="accordion-step">1</span>
+            <span class="accordion-title">Encuadre Procesal y Costas</span>
+          </div>
+          <div>
+            <span class="accordion-badge" id="badge-acc-1">Cobro de Pesos / ART · 2%</span>
+            <span class="accordion-chevron">▼</span>
+          </div>
+        </button>
+        <div class="accordion-body">
+          <div class="grid-3">
+            <div class="field-group">
+              <label for="tipoJuicio">Tipo de Juicio</label>
+              <select id="tipoJuicio" onchange="aplicarReglasProcesales()">
+                <option value="cobro_pesos">Cobro de Pesos / Riesgos del Trabajo - ART (2%)</option>
+                <option value="homologacion">Homologación de Convenio - Art. 15 LCT (2%)</option>
+                <option value="desalojo_comodato">Desalojo Laboral - Vivienda en Comodato (Indet. $6.300)</option>
+                <option value="amparo">Amparo / Tutela Sindical (Indet. $6.300)</option>
+                <option value="ejecucion">Ejecución de Sentencia / Honorarios (1%)</option>
+                <option value="residual">Especiales / Residual sin monto (Indet. $6.300)</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="momentoPlanilla">Momento de la Planilla</label>
+              <select id="momentoPlanilla" onchange="aplicarReglasProcesales()">
+                <option value="despues">Después de sentencia / Acuerdo</option>
+                <option value="antes">Antes de sentencia</option>
+                <option value="complementaria">Complementaria</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="costas">Imposición de Costas</label>
+              <select id="costas" onchange="aplicarReglasProcesales()">
+                <option value="demandada">Demandada / ART condenada (100%)</option>
+                <option value="prorrateadas">Prorrateadas (Porcentajes)</option>
+                <option value="convenidas">Convenidas (100% Empleadora - Homologación)</option>
+                <option value="orden">Por su orden (50% / 50%)</option>
+                <option value="actora">Actora condenada (100%)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="prorrateo-box" id="boxProrrateo">
+            <div>
+              <strong style="color:var(--primary); font-size:13.5px; display:block;">Distribución Porcentual de Costas
+                (Cámara / Casación)</strong>
+              <span style="font-size:12px; color:var(--muted);">La suma de ambos porcentajes debe ser igual a
+                100%.</span>
+            </div>
+            <div style="display:flex; gap:14px; align-items:center;">
+              <div class="field-group">
+                <label for="pctActora">% Actora</label>
+                <input type="number" id="pctActora" class="input-mini" min="0" max="100" value="40"
+                  oninput="sincronizarPorcentajes('actora')" />
+              </div>
+              <div class="field-group">
+                <label for="pctDemandada">% Demandada</label>
+                <input type="number" id="pctDemandada" class="input-mini" min="0" max="100" value="60"
+                  oninput="sincronizarPorcentajes('demandada')" />
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-top: 16px;">
+            <div class="field-group">
+              <label for="montoBase" id="lblMontoBase">Monto de Condena / Acuerdo ($) *</label>
+              <input type="number" id="montoBase" min="0" step="0.01" placeholder="Ej: 2500000"
+                oninput="recalcularTodo()" />
+              <span class="field-hint" id="hintMontoBase">Tasa proporcional 2% con mínimo legal de $4.200,00.</span>
+            </div>
+
+            <div class="field-group">
+              <label for="jurisdiccionDilig">Diligenciamiento de Mandamientos</label>
+              <select id="jurisdiccionDilig" onchange="recalcularTodo()">
+                <option value="capital">Oficial de Justicia 1ra. Inst. (100%)</option>
+                <option value="paz">Juzgado de Paz Lega (50%)</option>
+              </select>
+              <span class="field-hint">Intimación: $1.200 ($600 Paz) · Embargo: $1.400 ($700 Paz).</span>
+            </div>
+
+            <div class="field-group">
+              <label for="estiloRedaccion">Estilo de Redacción del Decreto</label>
+              <select id="estiloRedaccion" onchange="recalcularTodo()">
+                <option value="tradicional">Tradicional ("Téngase presente...")</option>
+                <option value="lenguaje_claro">Lenguaje Claro / 1ra. Persona ("Tengo presente...")</option>
+              </select>
+              <span class="field-hint">Adapta el proveído al criterio del Juzgado/OGA.</span>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 16px;">
+            <label class="check-card">
+              <input type="checkbox" id="gratuidadTrabajador" checked onchange="recalcularTodo()" />
+              <div>
+                <strong>Gratuidad Legal del Trabajador (Art. 331 inc. 1 CTP / Art. 13 CPL)</strong>
+                <span>Liquida los gastos y costas de la actora a fines contables, pero la <strong>exime del
+                    pago</strong> en el decreto. Destildar únicamente si hubo declaración de <em>mejora de
+                    fortuna</em>.</span>
+              </div>
+            </label>
+
+            <label class="check-card">
+              <input type="checkbox" id="adjuntaMovilidad" checked onchange="recalcularTodo()" />
+              <div>
+                <strong>Adjunta Movilidad para Librar Cédula</strong>
+                <span>Si se destilda, agrega al final del decreto: <em>"Previo a librar cédula, adjunte la movilidad
+                    necesaria."</em></span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACORDEÓN 2 -->
+      <div class="accordion-item open" id="acc-2">
+        <button type="button" class="accordion-header" onclick="toggleAccordion('acc-2')">
+          <div class="accordion-title-wrap">
+            <span class="accordion-step">2</span>
+            <span class="accordion-title">Tasas de Justicia</span>
+          </div>
+          <div>
+            <span class="accordion-badge" id="badge-acc-2">$ 0,00</span>
+            <span class="accordion-chevron">▼</span>
+          </div>
+        </button>
+        <div class="accordion-body">
+          <table class="tasas-table">
+            <thead>
+              <tr>
+                <th>Rubro / Concepto Legal</th>
+                <th style="text-align:center;">Cant. Actora</th>
+                <th style="text-align:center;">Cant. Demandada</th>
+                <th style="text-align:right;">Subtotal Actora</th>
+                <th style="text-align:right;">Subtotal Demandada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="rowTasaProp">
+                <td>
+                  <span class="tasa-title">Tasa Proporcional de Justicia <span class="tag-regla"
+                      id="tagAlicuota">2%</span></span>
+                  <span class="tasa-sub" id="subTasaProp">Art. 44 inc. 1 · Sobre monto de condena (Mínimo legal:
+                    $4.200,00)</span>
+                </td>
+                <td style="text-align:center;">
+                  <label style="font-size:12.5px; display:inline-flex; align-items:center; gap:5px; cursor:pointer;">
+                    <input type="checkbox" id="incluirTasaProp" checked onchange="recalcularTodo()" /> Incluir
+                  </label>
+                </td>
+                <td style="text-align:center; color:#94a3b8;">—</td>
+                <td class="tasa-monto" id="montoTasaPropAct">$ 0,00</td>
+                <td class="tasa-monto" style="color:#94a3b8;">$ 0,00</td>
+              </tr>
+
+              <tr id="rowApers">
+                <td>
+                  <span class="tasa-title">Apersonamiento Profesional (Art. 43 inc. 3)</span>
+                  <span class="tasa-sub">Valor unificado: $1.000,00 por profesional interviniente (0 si ya fue
+                    abonado)</span>
+                </td>
+                <td style="text-align:center;"><input type="number" id="cantApersAct" class="input-mini" min="0"
+                    value="0" oninput="recalcularTodo()" /></td>
+                <td style="text-align:center;"><input type="number" id="cantApersDem" class="input-mini" min="0"
+                    value="0" oninput="recalcularTodo()" /></td>
+                <td class="tasa-monto" id="montoApersAct">$ 0,00</td>
+                <td class="tasa-monto" id="montoApersDem">$ 0,00</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <span class="tasa-title">Mandamiento / Intimación de Pago (Art. 43 inc. 1) <span class="tag-regla"
+                      id="tagInt">$1.200</span></span>
+                  <span class="tasa-sub">Oficial de Justicia: $1.200,00 · Juzgado de Paz Lega (50%): $600,00</span>
+                </td>
+                <td style="text-align:center;"><input type="number" id="cantIntAct" class="input-mini" min="0" value="0"
+                    oninput="recalcularTodo()" /></td>
+                <td style="text-align:center;"><input type="number" id="cantIntDem" class="input-mini" min="0" value="0"
+                    oninput="recalcularTodo()" /></td>
+                <td class="tasa-monto" id="montoIntAct">$ 0,00</td>
+                <td class="tasa-monto" id="montoIntDem">$ 0,00</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <span class="tasa-title">Traba de Embargo / Medida Cautelar (Art. 43 inc. 2) <span class="tag-regla"
+                      id="tagEmb">$1.400</span></span>
+                  <span class="tasa-sub">Oficial de Justicia: $1.400,00 · Juzgado de Paz Lega (50%): $700,00</span>
+                </td>
+                <td style="text-align:center;"><input type="number" id="cantEmbAct" class="input-mini" min="0" value="0"
+                    oninput="recalcularTodo()" /></td>
+                <td style="text-align:center;"><input type="number" id="cantEmbDem" class="input-mini" min="0" value="0"
+                    oninput="recalcularTodo()" /></td>
+                <td class="tasa-monto" id="montoEmbAct">$ 0,00</td>
+                <td class="tasa-monto" id="montoEmbDem">$ 0,00</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <span class="tasa-title">Aceptación de Cargo Pericial (Art. 41 inc. 2)</span>
+                  <span class="tasa-sub">Peritos médicos, contadores, ingenieros · Valor unitario: $2.000,00</span>
+                </td>
+                <td style="text-align:center;"><input type="number" id="cantAcepAct" class="input-mini" min="0"
+                    value="0" oninput="recalcularTodo()" /></td>
+                <td style="text-align:center;"><input type="number" id="cantAcepDem" class="input-mini" min="0"
+                    value="0" oninput="recalcularTodo()" /></td>
+                <td class="tasa-monto" id="montoAcepAct">$ 0,00</td>
+                <td class="tasa-monto" id="montoAcepDem">$ 0,00</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <span class="tasa-title">Informe Pericial (Art. 43 inc. 8)</span>
+                  <span class="tasa-sub">Valor unitario: $2.100,00 por pericia presentada</span>
+                </td>
+                <td style="text-align:center;"><input type="number" id="cantInfAct" class="input-mini" min="0" value="0"
+                    oninput="recalcularTodo()" /></td>
+                <td style="text-align:center;"><input type="number" id="cantInfDem" class="input-mini" min="0" value="0"
+                    oninput="recalcularTodo()" /></td>
+                <td class="tasa-monto" id="montoInfAct">$ 0,00</td>
+                <td class="tasa-monto" id="montoInfDem">$ 0,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ACORDEÓN 3 -->
+      <div class="accordion-item open" id="acc-3">
+        <button type="button" class="accordion-header" onclick="toggleAccordion('acc-3')">
+          <div class="accordion-title-wrap">
+            <span class="accordion-step">3</span>
+            <span class="accordion-title">Escritos y Actuaciones (1° Instancia, Cámara y Casación)</span>
+          </div>
+          <div>
+            <span class="accordion-badge" id="badge-acc-3">$ 0,00</span>
+            <span class="accordion-chevron">▼</span>
+          </div>
+        </button>
+        <div class="accordion-body">
+          <div class="grid-2">
+            <div class="part-box">
+              <h4>
+                <span>Parte Actora (Trabajador/a)</span>
+                <span style="font-size:13px;" id="totBloqueActora">$ 0,00</span>
+              </h4>
+              <div class="grid-2">
+                <div class="field-group">
+                  <label for="cantEscritosAct">Escritos (Cant.)</label>
+                  <input type="number" id="cantEscritosAct" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+                <div class="field-group">
+                  <label for="profEscritosAct">Profesional</label>
+                  <select id="profEscritosAct" onchange="recalcularTodo()">
+                    <option value="1000">Abogado ($1.000)</option>
+                    <option value="500">Procurador ($500)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="instancias-grid">
+                <div class="inst-item">
+                  <span>1° Instancia ($700)</span>
+                  <input type="number" id="act1Act" class="input-mini" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+                <div class="inst-item">
+                  <span>Cámara ($700)</span>
+                  <input type="number" id="actCamAct" class="input-mini" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+                <div class="inst-item">
+                  <span>Casación CSJT ($700)</span>
+                  <input type="number" id="actCasAct" class="input-mini" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+              </div>
+
+              <button type="button" class="btn-auxiliar" style="margin-top:10px; width:100%; justify-content:center;"
+                onclick="abrirModalConteo('actora', '🧮 Auxiliar de Conteo — Parte Actora (1° Inst.)')">
+                🧮 Auxiliar de Conteo (1° Inst. Actora)
+              </button>
+            </div>
+
+            <div class="part-box">
+              <h4>
+                <span>Parte Demandada / ART</span>
+                <span style="font-size:13px;" id="totBloqueDemandada">$ 0,00</span>
+              </h4>
+              <div class="grid-2">
+                <div class="field-group">
+                  <label for="cantEscritosDem">Escritos (Cant.)</label>
+                  <input type="number" id="cantEscritosDem" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+                <div class="field-group">
+                  <label for="profEscritosDem">Profesional</label>
+                  <select id="profEscritosDem" onchange="recalcularTodo()">
+                    <option value="1000">Abogado ($1.000)</option>
+                    <option value="500">Procurador ($500)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="instancias-grid">
+                <div class="inst-item">
+                  <span>1° Instancia ($700)</span>
+                  <input type="number" id="act1Dem" class="input-mini" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+                <div class="inst-item">
+                  <span>Cámara ($700)</span>
+                  <input type="number" id="actCamDem" class="input-mini" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+                <div class="inst-item">
+                  <span>Casación CSJT ($700)</span>
+                  <input type="number" id="actCasDem" class="input-mini" min="0" value="0" oninput="recalcularTodo()" />
+                </div>
+              </div>
+
+              <button type="button" class="btn-auxiliar" style="margin-top:10px; width:100%; justify-content:center;"
+                onclick="abrirModalConteo('demandada', '🧮 Auxiliar de Conteo — Parte Demandada (1° Inst.)')">
+                🧮 Auxiliar de Conteo (1° Inst. Demandada)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACORDEÓN 4 -->
+      <div class="accordion-item open" id="acc-4">
+        <button type="button" class="accordion-header" onclick="toggleAccordion('acc-4')">
+          <div class="accordion-title-wrap">
+            <span class="accordion-step">4</span>
+            <span class="accordion-title">Informe + Decreto SAE</span>
+          </div>
+          <div>
+            <span class="accordion-badge" id="badge-acc-4">A Intimar: $ 0,00</span>
+            <span class="accordion-chevron">▼</span>
+          </div>
+        </button>
+        <div class="accordion-body">
+          <div class="resumen-strip cols-4">
+            <div class="resumen-card">
+              <span>Total Planilla Fiscal</span>
+              <strong id="cardTotGeneral">$ 0,00</strong>
+            </div>
+            <div class="resumen-card exento">
+              <span id="lblCardActora">Actora (Exenta Art. 331 inc. 1)</span>
+              <strong id="cardCargoActora">$ 0,00</strong>
+            </div>
+            <div class="resumen-card">
+              <span>A Cargo Demandada / ART</span>
+              <strong id="cardCargoDemandada">$ 0,00</strong>
+            </div>
+            <div class="resumen-card total">
+              <span>TOTAL EXIGIBLE A INTIMAR</span>
+              <strong id="cardTotalIntimar">$ 0,00</strong>
+            </div>
+          </div>
+
+          <div id="salidaSAE" class="sae-output-box" contenteditable="true"></div>
+
+          <div class="sae-actions">
+            <button type="button" class="btn-primary-jf" onclick="copiarParaSAE()">📋 Copiar para SAE</button>
+            <button type="button" class="btn-secondary-jf" onclick="nuevaPlanilla()">🔄 Nueva Planilla</button>
+          </div>
+          <div id="copyFeedback" class="copy-feedback">✓ Planilla y Decreto copiados al portapapeles (Arial 12
+            justificado). Listo para pegar en el SAE.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="jf-footer"
+      style="text-align: center; padding: 24px 16px; color: #64748b; font-size: 0.85rem; line-height: 1.5;">
+      <div id="autorFirma" style="font-weight: 700; color: #1e293b;">
+        Desarrollado por José Manuel Arnedo
+      </div>
+      <div>OGA de Cobros y Apremios — Poder Judicial de Tucumán</div>
+      <div style="font-size: 0.78rem; margin-top: 2px;">JUSFISCAL · Versión 1.0</div>
+    </footer>
+
+  </div>
+
+  <!-- MODAL AUXILIAR DE CONTEO -->
+  <div class="modal-backdrop" id="modalConteo">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalConteoTitulo">🧮 Auxiliar de Conteo de Actuaciones</h3>
+        <button type="button" class="modal-close" onclick="cerrarModalConteo()">✕</button>
+      </div>
+      <div class="conteo-grid">
+        <div class="conteo-row"><span>Decretos</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+        <div class="conteo-row"><span>Notas actuariales</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+        <div class="conteo-row"><span>Informes</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+        <div class="conteo-row"><span>Sentencias</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+        <div class="conteo-row"><span>Cédulas</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+        <div class="conteo-row"><span>Mandamientos</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+        <div class="conteo-row"><span>Oficios</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+        <div class="conteo-row"><span>Escritos varios</span><input type="number" class="cnt-cat" min="0" value="0"
+            oninput="actualizarTotalModal()" /></div>
+      </div>
+      <div class="modal-footer">
+        <div class="modal-total-badge">TOTAL: <span id="modalTotalNum">0</span> fojas</div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-secondary-jf" style="padding:8px 14px;"
+            onclick="limpiarModalConteo()">Limpiar</button>
+          <button type="button" class="btn-primary-jf" style="padding:8px 16px;"
+            onclick="aplicarConteo()">Aplicar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const T = window.JUSFISCAL_TARIFAS;
+
+    function sincronizarPorcentajes(origen) {
+      const inpAct = document.getElementById('pctActora');
+      const inpDem = document.getElementById('pctDemandada');
+      let vAct = parseFloat(inpAct.value) || 0;
+      let vDem = parseFloat(inpDem.value) || 0;
+      if (origen === 'actora') {
+        vAct = Math.max(0, Math.min(100, vAct));
+        inpAct.value = vAct;
+        inpDem.value = +(100 - vAct).toFixed(2);
+      } else {
+        vDem = Math.max(0, Math.min(100, vDem));
+        inpDem.value = vDem;
+        inpAct.value = +(100 - vDem).toFixed(2);
+      }
+      recalcularTodo();
+    }
+
+    function aplicarConteo() {
+      const total = actualizarTotalModal();
+      if (window._jfDestinoConteo === 'actora') {
+        document.getElementById('act1Act').value = total;
+      } else {
+        document.getElementById('act1Dem').value = total;
+      }
+      cerrarModalConteo();
+      recalcularTodo();
+    }
+
+    function aplicarReglasProcesales() {
+      const tipo = document.getElementById('tipoJuicio').value;
+      const momento = document.getElementById('momentoPlanilla').value;
+      const costasSel = document.getElementById('costas');
+      const esComplementaria = momento === 'complementaria';
+      const esIndeterminado = ['desalojo_comodato', 'amparo', 'residual'].includes(tipo);
+
+      const montoInput = document.getElementById('montoBase');
+      const lblMonto = document.getElementById('lblMontoBase');
+      const hintMonto = document.getElementById('hintMontoBase');
+
+      const chkTasaProp = document.getElementById('incluirTasaProp');
+      const rowTasaProp = document.getElementById('rowTasaProp');
+      const rowApers = document.getElementById('rowApers');
+      const cantApersAct = document.getElementById('cantApersAct');
+      const cantApersDem = document.getElementById('cantApersDem');
+
+      if (tipo === 'homologacion' && costasSel.value === 'demandada') {
+        costasSel.value = 'convenidas';
+      }
+
+      document.getElementById('boxProrrateo').classList.toggle('visible', costasSel.value === 'prorrateadas');
+
+      if (esComplementaria) {
+        montoInput.disabled = true;
+        hintMonto.textContent = 'Inhabilitado en Planilla Complementaria (liquidado en planilla anterior).';
+        chkTasaProp.checked = false;
+        chkTasaProp.disabled = true;
+        rowTasaProp.classList.add('row-disabled');
+        cantApersAct.value = 0;
+        cantApersDem.value = 0;
+        cantApersAct.disabled = true;
+        cantApersDem.disabled = true;
+        rowApers.classList.add('row-disabled');
+      } else {
+        chkTasaProp.disabled = false;
+        rowTasaProp.classList.remove('row-disabled');
+        cantApersAct.disabled = false;
+        cantApersDem.disabled = false;
+        rowApers.classList.remove('row-disabled');
+
+        if (esIndeterminado) {
+          montoInput.value = '';
+          montoInput.disabled = true;
+          lblMonto.textContent = 'Monto Indeterminado (Tasa Fija)';
+          hintMonto.textContent = tipo === 'desalojo_comodato'
+            ? 'Vivienda en comodato laboral sin canon locativo: aplica tasa fija de $6.300,00 (Art. 44 inc. 11).'
+            : 'Aplica tasa fija por monto indeterminado de $6.300,00 (Art. 44 inc. 11).';
+        } else {
+          montoInput.disabled = false;
+          if (tipo === 'homologacion') {
+            lblMonto.textContent = 'Monto del Acuerdo Homologado ($) *';
+            hintMonto.textContent = 'Tasa proporcional 2% sobre monto convenido (Mínimo legal: $4.200,00).';
+          } else if (tipo === 'ejecucion') {
+            lblMonto.textContent = 'Monto de Ejecución ($) *';
+            hintMonto.textContent = 'Tasa proporcional 1% (Art. 44 inc. 1 · Mínimo legal: $4.200,00).';
+          } else {
+            lblMonto.textContent = 'Monto de Condena ($) *';
+            hintMonto.textContent = 'Tasa proporcional 2% (Art. 44 inc. 1 · Mínimo legal: $4.200,00).';
+          }
+        }
+      }
+
+      recalcularTodo();
+    }
+
+    function recalcularTodo() {
+      const tipo = document.getElementById('tipoJuicio').value;
+      const momento = document.getElementById('momentoPlanilla').value;
+      const costas = document.getElementById('costas').value;
+      const juris = document.getElementById('jurisdiccionDilig').value;
+      const estilo = document.getElementById('estiloRedaccion').value;
+      const esComplementaria = momento === 'complementaria';
+      const esIndeterminado = ['desalojo_comodato', 'amparo', 'residual'].includes(tipo);
+      const montoBase = parseFloat(document.getElementById('montoBase').value) || 0;
+      const exentoTrabajador = document.getElementById('gratuidadTrabajador').checked;
+      const adjuntaMovilidad = document.getElementById('adjuntaMovilidad').checked;
+
+      const etiquetasJuicio = {
+        cobro_pesos: 'Cobro de Pesos / ART · 2%',
+        homologacion: 'Homologación Art. 15 LCT · 2%',
+        desalojo_comodato: 'Desalojo Comodato · Indet.',
+        amparo: 'Amparo / Tutela · Indet.',
+        ejecucion: 'Ejecución · 1%',
+        residual: 'Especiales / Residual · Indet.'
+      };
+      document.getElementById('badge-acc-1').textContent = etiquetasJuicio[tipo] + (esComplementaria ? ' · Complementaria' : '');
+
+      let tasaProp = 0;
+      const incluirTasa = !esComplementaria && document.getElementById('incluirTasaProp').checked;
+      const tagAlicuota = document.getElementById('tagAlicuota');
+      const subTasaProp = document.getElementById('subTasaProp');
+
+      if (esIndeterminado) {
+        tagAlicuota.textContent = 'Fija $6.300';
+        subTasaProp.textContent = 'Art. 44 inc. 11 · Juicio de valor indeterminado ($6.300,00)';
+        if (incluirTasa) tasaProp = T.tasaIndeterminada;
+      } else {
+        const alicuota = tipo === 'ejecucion' ? 0.01 : 0.02;
+        tagAlicuota.textContent = alicuota === 0.01 ? '1%' : '2%';
+        subTasaProp.textContent = 'Art. 44 inc. 1 · Sobre monto base (Mínimo legal: $4.200,00)';
+        if (incluirTasa && montoBase > 0) {
+          tasaProp = Math.max(T.minTasaProp, montoBase * alicuota);
+        }
+      }
+      document.getElementById('montoTasaPropAct').textContent = formatMoney(tasaProp);
+
+      const cantApersAct = esComplementaria ? 0 : (parseInt(document.getElementById('cantApersAct').value) || 0);
+      const cantApersDem = esComplementaria ? 0 : (parseInt(document.getElementById('cantApersDem').value) || 0);
+      const subApersAct = cantApersAct * T.apersonamiento;
+      const subApersDem = cantApersDem * T.apersonamiento;
+      document.getElementById('montoApersAct').textContent = formatMoney(subApersAct);
+      document.getElementById('montoApersDem').textContent = formatMoney(subApersDem);
+
+      const multDilig = juris === 'paz' ? 0.5 : 1;
+      const unitInt = T.intimacionBase * multDilig;
+      const unitEmb = T.embargoBase * multDilig;
+      document.getElementById('tagInt').textContent = formatMoney(unitInt);
+      document.getElementById('tagEmb').textContent = formatMoney(unitEmb);
+
+      const cantIntAct = parseInt(document.getElementById('cantIntAct').value) || 0;
+      const cantIntDem = parseInt(document.getElementById('cantIntDem').value) || 0;
+      const subIntAct = cantIntAct * unitInt;
+      const subIntDem = cantIntDem * unitInt;
+      document.getElementById('montoIntAct').textContent = formatMoney(subIntAct);
+      document.getElementById('montoIntDem').textContent = formatMoney(subIntDem);
+
+      const cantEmbAct = parseInt(document.getElementById('cantEmbAct').value) || 0;
+      const cantEmbDem = parseInt(document.getElementById('cantEmbDem').value) || 0;
+      const subEmbAct = cantEmbAct * unitEmb;
+      const subEmbDem = cantEmbDem * unitEmb;
+      document.getElementById('montoEmbAct').textContent = formatMoney(subEmbAct);
+      document.getElementById('montoEmbDem').textContent = formatMoney(subEmbDem);
+
+      const cantAcepAct = parseInt(document.getElementById('cantAcepAct').value) || 0;
+      const cantAcepDem = parseInt(document.getElementById('cantAcepDem').value) || 0;
+      const subAcepAct = cantAcepAct * T.aceptacion;
+      const subAcepDem = cantAcepDem * T.aceptacion;
+      document.getElementById('montoAcepAct').textContent = formatMoney(subAcepAct);
+      document.getElementById('montoAcepDem').textContent = formatMoney(subAcepDem);
+
+      const cantInfAct = parseInt(document.getElementById('cantInfAct').value) || 0;
+      const cantInfDem = parseInt(document.getElementById('cantInfDem').value) || 0;
+      const subInfAct = cantInfAct * T.pericia;
+      const subInfDem = cantInfDem * T.pericia;
+      document.getElementById('montoInfAct').textContent = formatMoney(subInfAct);
+      document.getElementById('montoInfDem').textContent = formatMoney(subInfDem);
+
+      const tasasActora = tasaProp + subApersAct + subIntAct + subEmbAct + subAcepAct + subInfAct;
+      const tasasDemandada = subApersDem + subIntDem + subEmbDem + subAcepDem + subInfDem;
+      document.getElementById('badge-acc-2').textContent = formatMoney(tasasActora + tasasDemandada);
+
+      const cantEscAct = parseInt(document.getElementById('cantEscritosAct').value) || 0;
+      const valEscAct = parseInt(document.getElementById('profEscritosAct').value) || 1000;
+      const subEscAct = cantEscAct * valEscAct;
+
+      const act1Act = parseInt(document.getElementById('act1Act').value) || 0;
+      const actCamAct = parseInt(document.getElementById('actCamAct').value) || 0;
+      const actCasAct = parseInt(document.getElementById('actCasAct').value) || 0;
+      const subActAct = (act1Act + actCamAct + actCasAct) * T.actuacion;
+      document.getElementById('totBloqueActora').textContent = formatMoney(subEscAct + subActAct);
+
+      const cantEscDem = parseInt(document.getElementById('cantEscritosDem').value) || 0;
+      const valEscDem = parseInt(document.getElementById('profEscritosDem').value) || 1000;
+      const subEscDem = cantEscDem * valEscDem;
+
+      const act1Dem = parseInt(document.getElementById('act1Dem').value) || 0;
+      const actCamDem = parseInt(document.getElementById('actCamDem').value) || 0;
+      const actCasDem = parseInt(document.getElementById('actCasDem').value) || 0;
+      const subActDem = (act1Dem + actCamDem + actCasDem) * T.actuacion;
+      document.getElementById('totBloqueDemandada').textContent = formatMoney(subEscDem + subActDem);
+
+      document.getElementById('badge-acc-3').textContent = formatMoney(subEscAct + subActAct + subEscDem + subActDem);
+
+      const devengadoActora = tasasActora + subEscAct + subActAct;
+      const devengadoDemandada = tasasDemandada + subEscDem + subActDem;
+      const totalGeneral = devengadoActora + devengadoDemandada;
+
+      let pctAct = 0;
+      let pctDem = 100;
+      if (costas === 'actora') { pctAct = 100; pctDem = 0; }
+      else if (costas === 'orden') { pctAct = 50; pctDem = 50; }
+      else if (costas === 'prorrateadas') {
+        pctAct = parseFloat(document.getElementById('pctActora').value) || 0;
+        pctDem = parseFloat(document.getElementById('pctDemandada').value) || 0;
+      }
+
+      let cargoActora = 0;
+      let cargoDemandada = 0;
+      if (momento === 'antes') {
+        cargoActora = devengadoActora;
+        cargoDemandada = devengadoDemandada;
+      } else {
+        cargoActora = +(totalGeneral * (pctAct / 100)).toFixed(2);
+        cargoDemandada = +(totalGeneral * (pctDem / 100)).toFixed(2);
+      }
+
+      const exigibleActora = exentoTrabajador ? 0 : cargoActora;
+      const totalIntimar = exigibleActora + cargoDemandada;
+
+      document.getElementById('cardTotGeneral').textContent = formatMoney(totalGeneral);
+      document.getElementById('lblCardActora').textContent = exentoTrabajador
+        ? 'Actora (Exenta Art. 331 inc. 1)'
+        : 'A Cargo Actora (Mejora Fortuna)';
+      document.getElementById('cardCargoActora').textContent = formatMoney(cargoActora);
+      document.getElementById('cardCargoDemandada').textContent = formatMoney(cargoDemandada);
+      document.getElementById('cardTotalIntimar').textContent = formatMoney(totalIntimar);
+      document.getElementById('badge-acc-4').textContent = `A Intimar: ${formatMoney(totalIntimar)}`;
+
+      generarTextoSAE({
+        tipo, momento, costas, estilo, esComplementaria, esIndeterminado,
+        montoBase, exentoTrabajador, adjuntaMovilidad,
+        tasaProp, incluirTasa,
+        cantApersAct, subApersAct, cantApersDem, subApersDem,
+        cantIntAct, subIntAct, cantIntDem, subIntDem,
+        cantEmbAct, subEmbAct, cantEmbDem, subEmbDem,
+        cantAcepAct, subAcepAct, cantAcepDem, subAcepDem,
+        cantInfAct, subInfAct, cantInfDem, subInfDem,
+        cantEscAct, subEscAct, cantEscDem, subEscDem,
+        act1Act, actCamAct, actCasAct,
+        act1Dem, actCamDem, actCasDem,
+        devengadoActora, devengadoDemandada, totalGeneral,
+        pctAct, pctDem, cargoActora, cargoDemandada, exigibleActora, totalIntimar
+      });
+    }
+
+    function generarTextoSAE(d) {
+      const lineas = [];
+      const intro = d.esComplementaria
+        ? 'En el día de la fecha se procede a practicar <b>planilla fiscal complementaria</b> conforme lo ordenado en autos.'
+        : 'En el día de la fecha se procede a practicar planilla fiscal conforme lo ordenado en autos.';
+
+      lineas.push(`<p style="margin:0 0 8pt 0; text-align:justify;"><b><u>San Miguel de Tucumán.-</u></b> ${intro}</p>`);
+      lineas.push(`<p style="margin:0 0 8pt 0; text-align:justify;"><b>Determinación fiscal (Ley 5121 - 8467 Ley Impositiva de la Provincia):</b></p>`);
+
+      const ia = [];
+      if (d.incluirTasa && d.tasaProp > 0) {
+        if (d.esIndeterminado) {
+          ia.push(`• ART. 44 INC. 11: IMPUESTO DE JUSTICIA (Monto indeterminado) = ${formatMoney(d.tasaProp)}.-`);
+        } else {
+          const pct = d.tipo === 'ejecucion' ? '1%' : '2%';
+          ia.push(`• ART. 44 INC. 1: IMPUESTO DE JUSTICIA (${pct} s/ ${formatMoney(d.montoBase)}) = ${formatMoney(d.tasaProp)}.-`);
+        }
+      }
+      if (d.subApersAct > 0) ia.push(`• ART. 43 INC. 3: APERSONAMIENTO X ${d.cantApersAct} = ${formatMoney(d.subApersAct)}.-`);
+      if (d.subIntAct > 0) ia.push(`• ART. 43 INC. 1: MANDAMIENTO / INTIMACIÓN X ${d.cantIntAct} = ${formatMoney(d.subIntAct)}.-`);
+      if (d.subEmbAct > 0) ia.push(`• ART. 43 INC. 2: EMBARGO / MEDIDA CAUTELAR X ${d.cantEmbAct} = ${formatMoney(d.subEmbAct)}.-`);
+      if (d.subAcepAct > 0) ia.push(`• ART. 41 INC. 2: ACEPTACIÓN DE CARGO PERICIAL X ${d.cantAcepAct} = ${formatMoney(d.subAcepAct)}.-`);
+      if (d.subInfAct > 0) ia.push(`• ART. 43 INC. 8: INFORME PERICIAL X ${d.cantInfAct} = ${formatMoney(d.subInfAct)}.-`);
+      if (d.subEscAct > 0) ia.push(`• ART. 41 INC. 1: ESCRITOS PROFESIONALES X ${d.cantEscAct} = ${formatMoney(d.subEscAct)}.-`);
+      if (d.act1Act > 0) ia.push(`• ART. 42 INC. 2: HOJAS DE ACTUACIÓN 1° INST. X ${d.act1Act} = ${formatMoney(d.act1Act * T.actuacion)}.-`);
+      if (d.actCamAct > 0) ia.push(`• ART. 42 INC. 3: HOJAS DE ACTUACIÓN CÁMARA X ${d.actCamAct} = ${formatMoney(d.actCamAct * T.actuacion)}.-`);
+      if (d.actCasAct > 0) ia.push(`• ART. 42 INC. 4: HOJAS DE ACTUACIÓN CASACIÓN (CSJT) X ${d.actCasAct} = ${formatMoney(d.actCasAct * T.actuacion)}.-`);
+
+      if (ia.length === 0) {
+        lineas.push(`<p style="margin:0 0 8pt 0; text-align:justify;"><b>La ACTORA</b> no generó gastos en la presente etapa.-</p>`);
+      } else {
+        lineas.push(`<p style="margin:0 0 3pt 0; text-align:justify;"><b>La ACTORA:</b></p>`);
+        ia.forEach(x => lineas.push(`<p style="margin:0 0 2pt 0; text-align:justify;">${x}</p>`));
+        lineas.push(`<p style="margin:3pt 0 8pt 0; text-align:justify;"><b>• SUBTOTAL ACTORA: ${formatMoney(d.devengadoActora)}.-</b></p>`);
+      }
+
+      const id = [];
+      if (d.subApersDem > 0) id.push(`• ART. 43 INC. 3: APERSONAMIENTO X ${d.cantApersDem} = ${formatMoney(d.subApersDem)}.-`);
+      if (d.subIntDem > 0) id.push(`• ART. 43 INC. 1: MANDAMIENTO / INTIMACIÓN X ${d.cantIntDem} = ${formatMoney(d.subIntDem)}.-`);
+      if (d.subEmbDem > 0) id.push(`• ART. 43 INC. 2: EMBARGO / MEDIDA CAUTELAR X ${d.cantEmbDem} = ${formatMoney(d.subEmbDem)}.-`);
+      if (d.subAcepDem > 0) id.push(`• ART. 41 INC. 2: ACEPTACIÓN DE CARGO PERICIAL X ${d.cantAcepDem} = ${formatMoney(d.subAcepDem)}.-`);
+      if (d.subInfDem > 0) id.push(`• ART. 43 INC. 8: INFORME PERICIAL X ${d.cantInfDem} = ${formatMoney(d.subInfDem)}.-`);
+      if (d.subEscDem > 0) id.push(`• ART. 41 INC. 1: ESCRITOS PROFESIONALES X ${d.cantEscDem} = ${formatMoney(d.subEscDem)}.-`);
+      if (d.act1Dem > 0) id.push(`• ART. 42 INC. 2: HOJAS DE ACTUACIÓN 1° INST. X ${d.act1Dem} = ${formatMoney(d.act1Dem * T.actuacion)}.-`);
+      if (d.actCamDem > 0) id.push(`• ART. 42 INC. 3: HOJAS DE ACTUACIÓN CÁMARA X ${d.actCamDem} = ${formatMoney(d.actCamDem * T.actuacion)}.-`);
+      if (d.actCasDem > 0) id.push(`• ART. 42 INC. 4: HOJAS DE ACTUACIÓN CASACIÓN (CSJT) X ${d.actCasDem} = ${formatMoney(d.actCasDem * T.actuacion)}.-`);
+
+      if (id.length === 0) {
+        lineas.push(`<p style="margin:0 0 8pt 0; text-align:justify;"><b>La DEMANDADA</b> no generó gastos originados de presentaciones.-</p>`);
+      } else {
+        lineas.push(`<p style="margin:0 0 3pt 0; text-align:justify;"><b>La DEMANDADA:</b></p>`);
+        id.forEach(x => lineas.push(`<p style="margin:0 0 2pt 0; text-align:justify;">${x}</p>`));
+        lineas.push(`<p style="margin:3pt 0 8pt 0; text-align:justify;"><b>• SUBTOTAL DEMANDADA: ${formatMoney(d.devengadoDemandada)}.-</b></p>`);
+      }
+
+      lineas.push(`<p style="margin:6pt 0 12pt 0; text-align:justify;"><b>• TOTAL PLANILLA FISCAL: ${formatMoney(d.totalGeneral)}.-</b></p>`);
+
+      if (d.momento !== 'antes' && (d.costas === 'prorrateadas' || d.costas === 'orden')) {
+        lineas.push(`<p style="margin:0 0 12pt 0; text-align:justify;"><b>Distribución según imposición de costas (${d.pctAct}% Actora / ${d.pctDem}% Demandada):</b> Parte Actora: ${formatMoney(d.cargoActora)} · Parte Demandada: ${formatMoney(d.cargoDemandada)}.-</p>`);
+      }
+
+      let decreto = `<b><u>San Miguel de Tucumán.-</u></b> Téngase presente la planilla fiscal practicada por Secretaría. `;
+
+      if (d.momento === 'antes') {
+        if (d.cargoDemandada > 0) {
+          decreto += `No habiendo condena en costas y gozando la parte actora del beneficio de gratuidad legal (art. 20 LCT, art. 13 CPL y art. 331 inc. 1 del Código Tributario Provincial), notifíquese a la parte <b>demandada</b> a fin que —dentro del término de <b>CINCO (5) DÍAS</b>— reponga los gastos devengados a su cargo por la suma de <b>${formatMoney(d.cargoDemandada)}</b>, bajo apercibimiento de formularse el correspondiente cargo tributario y remitirse los antecedentes a la Dirección General de Rentas de la Provincia.-`;
+        } else {
+          decreto += `No habiendo condena en costas y encontrándose la parte actora exenta del pago anticipado de tasas y sellados judiciales (art. 331 inc. 1 CTP y art. 13 CPL), resérvese para su oportunidad.-`;
+        }
+      } else {
+        if (d.cargoActora > 0 && d.exentoTrabajador) {
+          decreto += `En atención a lo dispuesto por el art. 331 inc. 1 del Código Tributario Provincial (Ley N° 5121), art. 20 de la LCT y art. 13 del CPL, declárase a la <b>parte actora EXENTA del pago</b> de la proporción de planilla fiscal a su cargo (${formatMoney(d.cargoActora)}). `;
+        }
+
+        if (d.cargoDemandada > 0 && d.exigibleActora > 0) {
+          decreto += `Atento a la imposición de costas y declaración de mejora de fortuna dictada en autos, notifíquese a la <b>parte actora</b> por la suma de <b>${formatMoney(d.exigibleActora)}</b> y a la <b>parte demandada</b> por la suma de <b>${formatMoney(d.cargoDemandada)}</b> a fin que —dentro del término de <b>CINCO (5) DÍAS</b>— repongan la planilla fiscal a su cargo, bajo apercibimiento de formularse cargo tributario y remitirse los antecedentes a la Dirección General de Rentas de la Provincia.-`;
+        } else if (d.cargoDemandada > 0) {
+          const motivo = d.costas === 'convenidas'
+            ? 'conforme lo convenido en el acuerdo homologado en autos'
+            : 'atento a la condena en costas dispuesta en autos';
+          decreto += `${motivo.charAt(0).toUpperCase() + motivo.slice(1)}, notifíquese a la parte <b>demandada</b> a fin que —dentro del término de <b>CINCO (5) DÍAS</b>— reponga la planilla fiscal a su cargo, la que asciende a la suma de <b>${formatMoney(d.cargoDemandada)}</b>, bajo apercibimiento de formularse el correspondiente cargo tributario y remitirse los antecedentes a la Dirección General de Rentas de la Provincia.-`;
+        } else if (d.exigibleActora > 0) {
+          decreto += `Atento a la condena en costas y mejora de fortuna declarada en autos, notifíquese a la parte <b>actora</b> a fin que —dentro del término de <b>CINCO (5) DÍAS</b>— reponga la planilla fiscal a su cargo por la suma de <b>${formatMoney(d.exigibleActora)}</b>, bajo apercibimiento de remitirse los antecedentes a la Dirección General de Rentas de la Provincia.-`;
+        } else {
+          decreto += `Encontrándose exenta la parte obligada al pago conforme art. 331 inc. 1 CTP, archívese la presente liquidación sin cargo tributario a formular.-`;
+        }
+      }
+
+      if (!d.adjuntaMovilidad && d.totalIntimar > 0) {
+        decreto += ` Previo a librar cédula, adjunte la movilidad necesaria.-`;
+      }
+
+      if (d.estilo === 'lenguaje_claro') {
+        decreto = decreto
+          .replace(/Téngase presente/g, 'Tengo presente')
+          .replace(/declárase/g, 'declaro')
+          .replace(/notifíquese/g, 'notifico')
+          .replace(/resérvese/g, 'reservo')
+          .replace(/archívese/g, 'archivo');
+      }
+
+      lineas.push(`<p style="margin:0; text-align:justify;">${decreto}</p>`);
+      document.getElementById('salidaSAE').innerHTML = lineas.join('');
+    }
+
+    function nuevaPlanilla() {
+      document.getElementById('tipoJuicio').value = 'cobro_pesos';
+      document.getElementById('momentoPlanilla').value = 'despues';
+      document.getElementById('costas').value = 'demandada';
+      document.getElementById('pctActora').value = 40;
+      document.getElementById('pctDemandada').value = 60;
+      document.getElementById('montoBase').value = '';
+      document.getElementById('jurisdiccionDilig').value = 'capital';
+      document.getElementById('estiloRedaccion').value = 'tradicional';
+      document.getElementById('gratuidadTrabajador').checked = true;
+      document.getElementById('adjuntaMovilidad').checked = true;
+      document.getElementById('incluirTasaProp').checked = true;
+
+      ['cantApersAct', 'cantApersDem', 'cantIntAct', 'cantIntDem', 'cantEmbAct', 'cantEmbDem', 'cantAcepAct', 'cantAcepDem', 'cantInfAct', 'cantInfDem', 'cantEscritosAct', 'act1Act', 'actCamAct', 'actCasAct', 'cantEscritosDem', 'act1Dem', 'actCamDem', 'actCasDem'].forEach(id => {
+        document.getElementById(id).value = 0;
+      });
+
+      limpiarModalConteo();
+      aplicarReglasProcesales();
+    }
+
+    window.addEventListener('DOMContentLoaded', aplicarReglasProcesales);
+  </script>
+</body>
+
+</html>
