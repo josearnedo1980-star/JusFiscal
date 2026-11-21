@@ -7,17 +7,396 @@
   <title>Academia · JUSFISCAL</title>
   <link rel="icon" href="assets/logo-jusfiscal.svg?v=2" type="image/svg+xml" />
   <link rel="stylesheet" href="css/jusfiscal.css" />
+  <style>
+    /* Selector superior de cápsulas */
+    .acad-selector-bar {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-top: 5px solid #12345A;
+      border-radius: 16px;
+      padding: 22px 26px;
+      margin-top: 20px;
+      box-shadow: 0 4px 16px rgba(18, 52, 90, 0.05);
+    }
+
+    .acad-selector-bar h2 {
+      color: #12345A;
+      margin: 0 0 6px 0;
+      font-size: 20px;
+    }
+
+    .acad-selector-bar p {
+      color: #475569;
+      margin: 0 0 16px 0;
+      font-size: 13.8px;
+    }
+
+    .capsula-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .cap-tab {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      color: #12345A;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .cap-tab:hover {
+      border-color: #5D87B4;
+      background: #eff6ff;
+    }
+
+    .cap-tab.active {
+      background: #12345A;
+      color: #ffffff;
+      border-color: #12345A;
+      box-shadow: 0 4px 12px rgba(18, 52, 90, 0.2);
+    }
+
+    .cap-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #dbeafe;
+      color: #12345A;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cap-tab.active .cap-num {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+
+    .cap-tab-info strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .cap-tab-info span {
+      display: block;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+
+    /* Escenario principal dividido */
+    .acad-workspace {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      margin-top: 20px;
+      animation: fadeSlide 0.32s ease;
+    }
+
+    @media (max-width: 900px) {
+      .acad-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateX(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .video-card,
+    .slides-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 22px 24px;
+      box-shadow: 0 4px 14px rgba(18, 52, 90, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .video-stage {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+      margin-top: 12px;
+    }
+
+    .video-stage iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #12345A 0%, #245282 100%);
+      color: #ffffff;
+    }
+
+    .play-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    /* Carrusel deslizante de fichas */
+    .mini-progress-bar {
+      width: 100%;
+      height: 5px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 16px 0;
+    }
+
+    .mini-progress-fill {
+      height: 100%;
+      width: 25%;
+      background: linear-gradient(90deg, #12345A, #5D87B4);
+      transition: width 0.3s ease;
+    }
+
+    .flash-slide {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 5px solid #12345A;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 185px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: fadeSlide 0.28s ease;
+    }
+
+    .flash-slide:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(18, 52, 90, 0.08);
+    }
+
+    .flash-badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: #12345A;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .flash-slide h4 {
+      color: #12345A;
+      margin: 0 0 8px 0;
+      font-size: 16.5px;
+    }
+
+    .flash-slide p {
+      color: #334155;
+      font-size: 13.8px;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .slide-nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn-slide {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #12345A;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-slide:hover:not(:disabled) {
+      background: #eff6ff;
+    }
+
+    .btn-slide:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-slide.primary {
+      background: #12345A;
+      color: #ffffff;
+      border-color: #12345A;
+    }
+
+    /* Simulador de Auditoría / Detector de Errores */
+    .audit-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-left: 6px solid #5D87B4;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-top: 22px;
+      box-shadow: 0 4px 14px rgba(18, 52, 90, 0.04);
+    }
+
+    .audit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .audit-header h3 {
+      color: #12345A;
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .audit-case-switch {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .audit-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #12345A;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .audit-pill.active {
+      background: #12345A;
+      color: #ffffff;
+      border-color: #12345A;
+    }
+
+    .audit-context {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13.8px;
+      color: #334155;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .audit-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .audit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      font-size: 13.8px;
+      color: #1e293b;
+      transition: all 0.2s ease;
+    }
+
+    .audit-row:hover {
+      border-color: #12345A;
+      background: #eff6ff;
+    }
+
+    .audit-row.found-error {
+      background: #fef2f2;
+      border-color: #ef4444;
+      color: #991b1b;
+    }
+
+    .audit-row.valid-ok {
+      background: #ecfdf5;
+      border-color: #10b981;
+      color: #065f46;
+    }
+
+    .audit-feedback {
+      margin-top: 14px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: #f0f7ff;
+      border: 1px solid #bae6fd;
+      border-left: 5px solid #12345A;
+      font-size: 13.6px;
+      color: #1e293b;
+      line-height: 1.55;
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
   <div class="jf-module-wrap">
+
+    <!-- CABECERA INSTITUCIONAL -->
     <header class="jf-header">
       <div class="jf-brand">
         <img src="assets/logo-jusfiscal.svg" alt="JUSFISCAL" class="jf-logo" />
         <div class="jf-title-group">
           <span class="jf-app">JUSFISCAL · Poder Judicial de Tucumán</span>
           <h1 class="jf-module">Academia</h1>
-          <span class="jf-subtitle">Capacitación Interna y Talleres Prácticos</span>
+          <span class="jf-subtitle">Entrenamiento Operativo, Cápsulas de Uso y Auditoría de Planillas</span>
         </div>
       </div>
       <div class="header-actions">
@@ -26,26 +405,343 @@
       </div>
     </header>
 
-    <main
-      style="background:#fff; border:1px solid #cbd5e1; border-radius:12px; padding:28px; margin-top:20px; line-height:1.6;">
-      <h2 style="color:#12345A; margin-top:0;">Espacio de Capacitación Judicial (Próximamente)</h2>
-      <p>La sección <strong>Academia</strong> estará destinada a materiales de formación para operadores judiciales,
-        secretarios y prosecretarios sobre liquidación tributaria, control de tasas de justicia y estandarización de
-        proveídos en el SAE.</p>
-      <p>Podés operar directamente los módulos de cálculo vigentes para Apremios, Documentos y Locaciones y Fuero del
-        Trabajo.</p>
-      <div style="margin-top:22px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="liquidar.html" class="btn-primary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Comenzar a Liquidar</a>
-        <a href="index.html" class="btn-secondary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Volver al Inicio</a>
+    <!-- SELECTOR DE CÁPSULAS OPERATIVAS -->
+    <section class="acad-selector-bar">
+      <h2>Entrenamiento Práctico en el Uso de JUSFISCAL</h2>
+      <p>Elegí un módulo operativo para recorrer las fichas interactivas paso a paso y vincular los tutoriales de
+        pantalla:</p>
+      <div class="capsula-tabs">
+        <button type="button" class="cap-tab active" onclick="seleccionarCapsula(0, this)">
+          <span class="cap-num">01</span>
+          <div class="cap-tab-info">
+            <strong>Revisión Contable y Conteo SAE</strong>
+            <span>Control de recaudos iniciales, escritos vs. fojas y pegado SAE</span>
+          </div>
+        </button>
+        <button type="button" class="cap-tab" onclick="seleccionarCapsula(1, this)">
+          <span class="cap-num">02</span>
+          <div class="cap-tab-info">
+            <strong>Planillas Complementarias y Pagos Parciales</strong>
+            <span>Cómo evitar doble imposición en ejecuciones y desalojos</span>
+          </div>
+        </button>
+        <button type="button" class="cap-tab" onclick="seleccionarCapsula(2, this)">
+          <span class="cap-num">03</span>
+          <div class="cap-tab-info">
+            <strong>Exenciones, BPLSG y Prorrateo de Costas</strong>
+            <span>Reglas especiales en Apremios, Laboral y Segunda Instancia</span>
+          </div>
+        </button>
       </div>
-    </main>
+    </section>
 
-    <footer style="text-align:center; margin-top:28px; color:#64748b; font-size:13px;">
+    <!-- ESCENARIO INTERACTIVO: VIDEO + TARJETAS DESLIZANTES -->
+    <section class="acad-workspace" id="acadWorkspace">
+      <div class="video-card">
+        <div>
+          <span class="flash-badge" id="capBadge">MÓDULO 01 · PRÁCTICA EN EL SAE</span>
+          <h3 style="color:#12345A; margin:0 0 6px 0; font-size:18px;" id="capTitulo"></h3>
+          <p style="color:#475569; font-size:13.5px; margin:0; line-height:1.5;" id="capSubtitulo"></p>
+        </div>
+
+        <div class="video-stage" id="videoStage"></div>
+
+        <div
+          style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:12.5px; color:#64748b;">
+          <span>💡 Tip: Recorré las fichas deslizantes de la derecha en PCs sin parlantes.</span>
+          <a href="#" target="_blank" rel="noopener" id="btnExtDrive"
+            style="display:none; color:#12345A; font-weight:700; text-decoration:none;">
+            ↗ Abrir en Drive
+          </a>
+        </div>
+      </div>
+
+      <div class="slides-card">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:#12345A; font-size:15px;">Pasos Operativos del Módulo</strong>
+            <span style="font-size:12px; color:#64748b; font-weight:700;" id="fichaContador">Paso 1 de 4</span>
+          </div>
+          <div class="mini-progress-bar">
+            <div class="mini-progress-fill" id="fichaProgreso"></div>
+          </div>
+
+          <div class="flash-slide" id="flashSlide" onclick="siguienteFicha()">
+            <span class="flash-badge" id="fichaTag">PASO 1 DE 4</span>
+            <h4 id="fichaTitulo"></h4>
+            <p id="fichaTexto"></p>
+            <div style="margin-top:14px; font-size:11.5px; color:#64748b; text-align:right; font-style:italic;">
+              Hacé clic en la tarjeta para pasar al siguiente paso →
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-nav-row">
+          <button type="button" class="btn-slide" id="btnFichaPrev" onclick="anteriorFicha()" disabled>←
+            Anterior</button>
+          <button type="button" class="btn-slide primary" id="btnFichaNext" onclick="siguienteFicha()">Siguiente paso
+            →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULADOR DE AUDITORÍA DE PLANILLA (DETECTOR DE ERRORES) -->
+    <section class="audit-box">
+      <div class="audit-header">
+        <h3>Simulador de Auditoría: Detectá el Error en la Planilla</h3>
+        <div class="audit-case-switch">
+          <button type="button" class="audit-pill active" onclick="cargarAuditoria(0, this)">Caso A: Apremio Ad
+            Hoc</button>
+          <button type="button" class="audit-pill" onclick="cargarAuditoria(1, this)">Caso B: Justicia de Paz</button>
+          <button type="button" class="audit-pill" onclick="cargarAuditoria(2, this)">Caso C: Desalojo sin
+            Contrato</button>
+        </div>
+      </div>
+      <p style="color:#475569; font-size:13.6px; margin:0 0 12px 0;">
+        Leé el planteo del expediente y <strong>hacé clic sobre el renglón que está mal liquidado</strong>:
+      </p>
+
+      <div class="audit-context" id="auditContext"></div>
+      <div class="audit-items" id="auditItems"></div>
+      <div class="audit-feedback" id="auditFeedback"></div>
+    </section>
+
+    <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+      <a href="liquidar.html" class="btn-primary-jf"
+        style="text-decoration:none; padding:12px 24px; border-radius:10px;">Ir a los Liquidadores →</a>
+      <a href="aprender.html" class="btn-secondary-jf"
+        style="text-decoration:none; padding:12px 24px; border-radius:10px;">← Repasar Conceptos en Aprender</a>
+    </div>
+
+    <footer style="text-align:center; margin-top:32px; color:#64748b; font-size:13px;">
       <strong>JUSFISCAL</strong> · Desarrollado por <strong>José Manuel Arnedo</strong> — Poder Judicial de Tucumán
     </footer>
   </div>
+
+  <script>
+    const CAPSULAS = [
+      {
+        badge: 'MÓDULO 01 · PRÁCTICA EN EL SAE',
+        titulo: 'Revisión Contable y Conteo de Actuaciones en el SAE',
+        subtitulo: 'Cómo auditar el historial del expediente digital y usar el Auxiliar de Conteo sin duplicar rubros.',
+        driveId: '',
+        fichas: [
+          {
+            titulo: '1. Revisar recaudos iniciales abonados',
+            texto: 'Antes de cargar números, verificá en el expediente si la parte ya pagó al inicio la tasa proporcional, el apersonamiento y la intimación. En Documentos y Locaciones vienen desactivados por defecto para evitar cobrarlos dos veces.'
+          },
+          {
+            titulo: '2. Contar Escritos Profesionales ($1.000 / $500)',
+            texto: 'Se cuentan por presentación de abogado ($1.000) o procurador ($500) conforme Art. 41 inc. 1. No importa si la demanda tiene 3 o 25 páginas: cuenta como 1 solo escrito.'
+          },
+          {
+            titulo: '3. Usar el Auxiliar de Conteo para Fojas ($700)',
+            texto: 'Abrí el botón "🧮 Contar" para sumar página por página los decretos, notas actuariales, informes, sentencias, cédulas, mandamientos y oficios con sus respectivas respuestas.'
+          },
+          {
+            titulo: '4. Copiar y pegar directo al SAE (Arial 12pt)',
+            texto: 'Con el botón "Copiar para SAE", el sistema entrega la planilla y el decreto justificados en Arial 12pt con negritas listas para pegar con Ctrl + V en el editor.'
+          }
+        ]
+      },
+      {
+        badge: 'MÓDULO 02 · ETAPAS POSTERIORES',
+        titulo: 'Planillas Complementarias y Diferencias Impagas',
+        subtitulo: 'Criterios para liquidar etapas de ejecución de sentencia o saldos de tasa proporcional sin duplicaciones.',
+        driveId: '',
+        fichas: [
+          {
+            titulo: '1. ¿Cuándo usar "Planilla Complementaria"?',
+            texto: 'Siempre que ya exista una planilla fiscal anterior aprobada o con cargo tributario emitido, y se deban liquidar únicamente las actuaciones y medidas generadas con posterioridad.'
+          },
+          {
+            titulo: '2. Bloqueo automático de rubros iniciales',
+            texto: 'Al seleccionar "Planilla Complementaria" en Apremios, JUSFISCAL pone en $0 y sombrea en gris la tasa proporcional, el apersonamiento y la intimación inicial, aclarando ese extremo en el proveído.'
+          },
+          {
+            titulo: '3. Diferencia de tasa proporcional en Documentos',
+            texto: 'Si al iniciar un juicio ordinario o desalojo el actor solo pagó el mínimo de $4.200 y la sentencia condena por un monto mayor, activá "Diferencia de Tasa Proporcional" para liquidar solo el saldo adeudado.'
+          },
+          {
+            titulo: '4. Nuevos embargos y pericias posteriores',
+            texto: 'Aunque la planilla sea complementaria, cualquier traba de embargo ($1.400 / $700 Paz), aceptación de cargo ($2.000) o informe pericial ($2.100) posterior debe liquidarse normalmente.'
+          }
+        ]
+      },
+      {
+        badge: 'MÓDULO 03 · EXENCIONES Y COSTAS',
+        titulo: 'Exenciones Legales, BPLSG y Prorrateo de Costas',
+        subtitulo: 'Cómo impactan las exenciones subjetivas y las sentencias con costas divididas en la intimación final.',
+        driveId: '',
+        fichas: [
+          {
+            titulo: '1. Fisco Provincial / Municipal (Cobros y Apremios)',
+            texto: 'El Estado está exento de pago anticipado, pero sus actuaciones se cuantifican en la planilla. Si el demandado pierde con costas, debe reponer la totalidad al Fisco.'
+          },
+          {
+            titulo: '2. Gratuidad del Trabajador (Art. 331 inc. 1 CTP)',
+            texto: 'En el Fuero del Trabajo, aunque la sentencia imponga un porcentaje de costas al trabajador, el decreto lo declara exento de pago e intima solo a la empleadora por su proporción.'
+          },
+          {
+            titulo: '3. Beneficio para Litigar sin Gastos (Art. 82 CPCCT)',
+            texto: 'Al tildar "BPLSG vigente", la liquidación contable se realiza igual, pero el proveído suspende la intimación de pago mientras subsista el beneficio.'
+          },
+          {
+            titulo: '4. Costas prorrateadas (ej. 60% / 40%)',
+            texto: 'En Trabajo y Civil, al cargar los porcentajes fijados en sentencia o Cámara, JUSFISCAL distribuye automáticamente el total general y calcula el monto exacto a intimar a cada parte.'
+          }
+        ]
+      }
+    ];
+
+    const AUDITORIAS = [
+      {
+        contexto: '<strong>Expediente de Apremio (Capital: $250.000):</strong> Promovido por apoderado fiscal (abogado). La intimación de pago se diligenció mediante <strong>Oficial Ad Hoc</strong> y luego se trabó 1 embargo por Oficial de Justicia. Costas a la demandada.',
+        items: [
+          { texto: 'ART. 44: Tasa Proporcional de Justicia (1% — Mínimo legal) = $ 4.200,00', esError: false },
+          { texto: 'ART. 43 INC. 1: Mandamiento de Intimación de Pago x 1 = $ 1.200,00', esError: true },
+          { texto: 'ART. 43 INC. 2: Traba de Embargo x 1 = $ 1.400,00', esError: false },
+          { texto: 'ART. 43 INC. 3: Apersonamiento Profesional x 1 = $ 1.000,00', esError: false }
+        ],
+        explicacion: '<strong>¡Bien detectado!</strong> Cuando la intimación de pago es diligenciada por un <strong>Oficial Ad Hoc</strong>, la tasa fija de intimación es <strong>$ 0,00</strong> (mientras que el embargo posterior por Oficial de Justicia sí se cobra a $ 1.400,00).'
+      },
+      {
+        contexto: '<strong>Ejecución en el Interior Provincial:</strong> El mandamiento de intimación de pago y el embargo fueron diligenciados a través del <strong>Juzgado de Paz Lega</strong> de la jurisdicción del demandado.',
+        items: [
+          { texto: 'ART. 41 INC. 1: Escrito de Abogado x 2 = $ 2.000,00', esError: false },
+          { texto: 'ART. 42 INC. 2: Hoja de Actuación Judicial x 5 = $ 3.500,00', esError: false },
+          { texto: 'ART. 43 INC. 2: Traba de Embargo (Juzgado de Paz) x 1 = $ 1.400,00', esError: true },
+          { texto: 'ART. 43 INC. 1: Intimación de Pago (Juzgado de Paz 50%) x 1 = $ 600,00', esError: false }
+        ],
+        explicacion: '<strong>¡Exacto!</strong> Cuando el embargo se diligencia mediante intervención de un <strong>Juzgado de Paz Lega</strong>, la Ley Impositiva reduce la tasa al <strong>50% ($ 700,00</strong> en lugar de $ 1.400,00).'
+      },
+      {
+        contexto: '<strong>Juicio de Desalojo (Documentos y Locaciones):</strong> Demanda de desalojo por intrusión / tenencia precaria <strong>sin contrato de locación ni canon mensual pactado</strong>, tramitado en Capital.',
+        items: [
+          { texto: 'ART. 44: Tasa Proporcional (2% sobre 3 meses de alquiler estimado) = $ 4.200,00', esError: true },
+          { texto: 'ART. 43 INC. 6: Inspección Ocular x 1 = $ 2.000,00', esError: false },
+          { texto: 'ART. 41 INC. 1: Escrito de Abogado x 1 = $ 1.000,00', esError: false },
+          { texto: 'ART. 42 INC. 2: Hoja de Actuación Judicial x 4 = $ 2.800,00', esError: false }
+        ],
+        explicacion: '<strong>¡Correcto!</strong> Conforme el Art. 323 inc. 1 del Código Tributario Provincial, solo se toman 3 meses de alquiler cuando existe contrato de locación. Si no hay canon pactado, tributa como <strong>monto indeterminado ($ 6.300,00)</strong>.'
+      }
+    ];
+
+    let capActual = 0;
+    let fichaActual = 0;
+
+    function seleccionarCapsula(idx, btn) {
+      capActual = idx;
+      fichaActual = 0;
+      document.querySelectorAll('.cap-tab').forEach(t => t.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const ws = document.getElementById('acadWorkspace');
+      ws.style.animation = 'none';
+      ws.offsetHeight;
+      ws.style.animation = 'fadeSlide 0.32s ease';
+
+      renderCapsula();
+    }
+
+    function renderCapsula() {
+      const cap = CAPSULAS[capActual];
+      document.getElementById('capBadge').textContent = cap.badge;
+      document.getElementById('capTitulo').textContent = cap.titulo;
+      document.getElementById('capSubtitulo').textContent = cap.subtitulo;
+
+      const stage = document.getElementById('videoStage');
+      const extBtn = document.getElementById('btnExtDrive');
+      if (cap.driveId && cap.driveId.trim() !== '') {
+        stage.innerHTML = `<iframe src="https://drive.google.com/file/d/${cap.driveId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+        extBtn.href = `https://drive.google.com/file/d/${cap.driveId}/view`;
+        extBtn.style.display = 'inline';
+      } else {
+        stage.innerHTML = `
+          <div class="video-placeholder">
+            <span class="play-circle">▶</span>
+            <strong style="font-size:15.5px; margin-bottom:5px;">${cap.titulo}</strong>
+            <small style="font-size:12.5px; opacity:0.88; max-width:340px;">
+              Espacio listo para vincular tu video desde Google Drive. Recorré las fichas deslizantes de la derecha para ver los pasos operativos.
+            </small>
+          </div>
+        `;
+        extBtn.style.display = 'none';
+      }
+
+      renderFicha();
+    }
+
+    function renderFicha() {
+      const fichas = CAPSULAS[capActual].fichas;
+      const f = fichas[fichaActual];
+      const total = fichas.length;
+
+      document.getElementById('fichaContador').textContent = `Paso ${fichaActual + 1} de ${total}`;
+      document.getElementById('fichaProgreso').style.width = ((fichaActual + 1) / total * 100) + '%';
+      document.getElementById('fichaTag').textContent = `PASO ${fichaActual + 1} DE ${total}`;
+      document.getElementById('fichaTitulo').textContent = f.titulo;
+      document.getElementById('fichaTexto').textContent = f.texto;
+
+      const card = document.getElementById('flashSlide');
+      card.style.animation = 'none';
+      card.offsetHeight;
+      card.style.animation = 'fadeSlide 0.28s ease';
+
+      document.getElementById('btnFichaPrev').disabled = fichaActual === 0;
+      document.getElementById('btnFichaNext').textContent =
+        fichaActual === total - 1 ? 'Volver al Paso 1 ↺' : 'Siguiente paso →';
+    }
+
+    function siguienteFicha() {
+      const total = CAPSULAS[capActual].fichas.length;
+      fichaActual = (fichaActual + 1) % total;
+      renderFicha();
+    }
+
+    function anteriorFicha() {
+      if (fichaActual > 0) {
+        fichaActual--;
+        renderFicha();
+      }
+    }
+
+    function cargarAuditoria(idx, btn) {
+      document.querySelectorAll('.audit-pill').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const data = AUDITORIAS[idx];
+      document.getElementById('auditContext').innerHTML = data.contexto;
+      const cont = document.getElementById('auditItems');
+      const fb = document.getElementById('auditFeedback');
+      fb.style.display = 'none';
+      cont.innerHTML = '';
+
+      data.items.forEach(item => {
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'audit-row';
+        row.innerHTML = `<span>${item.texto}</span><span style="font-size:12px; color:#64748b; font-weight:700;">Auditar →</span>`;
+        row.onclick = () => {
+          document.querySelectorAll('.audit-row').forEach(r => r.classList.remove('found-error', 'valid-ok'));
+          if (item.esError) {
+            row.classList.add('found-error');
+            fb.innerHTML = data.explicacion;
+          } else {
+            row.classList.add('valid-ok');
+            fb.innerHTML = 'Este rubro está correctamente liquidado según la Ley Impositiva N° 8467. Seguí revisando los demás renglones para encontrar el error.';
+          }
+          fb.style.display = 'block';
+        };
+        cont.appendChild(row);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCapsula();
+      cargarAuditoria(0, document.querySelector('.audit-pill'));
+    });
+  </script>
 </body>
 
 </html>

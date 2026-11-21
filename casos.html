@@ -7,17 +7,236 @@
   <title>Casos Prácticos · JUSFISCAL</title>
   <link rel="icon" href="assets/logo-jusfiscal.svg?v=2" type="image/svg+xml" />
   <link rel="stylesheet" href="css/jusfiscal.css" />
+  <style>
+    .cases-intro {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 22px 26px;
+      margin-top: 20px;
+      box-shadow: 0 4px 16px rgba(18, 52, 90, 0.05);
+    }
+
+    .cases-intro h2 {
+      color: #12345A;
+      margin: 0 0 6px 0;
+      font-size: 19px;
+    }
+
+    .cases-intro p {
+      color: #475569;
+      margin: 0 0 16px 0;
+      font-size: 13.8px;
+      line-height: 1.5;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      padding: 9px 16px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      color: #12345A;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: #12345A;
+      background: #eff6ff;
+    }
+
+    .filter-btn.active {
+      background: #12345A;
+      color: #ffffff;
+      border-color: #12345A;
+      box-shadow: 0 3px 10px rgba(18, 52, 90, 0.2);
+    }
+
+    /* Tarjetas de Caso Testigo */
+    .cases-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .case-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-left: 6px solid #12345A;
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 0 4px 14px rgba(18, 52, 90, 0.04);
+      animation: fadeUp 0.3s ease;
+    }
+
+    .case-card.fuero-documentos {
+      border-left-color: #5D87B4;
+    }
+
+    .case-card.fuero-trabajo {
+      border-left-color: #0f766e;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .case-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .fuero-badge {
+      display: inline-block;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      background: #eff6ff;
+      color: #12345A;
+      border: 1px solid #bfdbfe;
+    }
+
+    .fuero-badge.doc {
+      background: #f0f9ff;
+      color: #0369a1;
+      border-color: #bae6fd;
+    }
+
+    .fuero-badge.trab {
+      background: #f0fdfa;
+      color: #0f766e;
+      border-color: #99f6e4;
+    }
+
+    .case-total-pill {
+      background: #12345A;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 5px 12px;
+      border-radius: 8px;
+    }
+
+    .case-card h3 {
+      color: #12345A;
+      margin: 0 0 12px 0;
+      font-size: 18px;
+    }
+
+    .case-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .case-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13.6px;
+      color: #334155;
+      line-height: 1.55;
+    }
+
+    .case-box strong.box-lbl {
+      display: block;
+      color: #12345A;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+
+    /* Bloque de Decreto Modelo */
+    .modelo-sae-wrap {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .modelo-sae-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .modelo-sae-header span {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #12345A;
+    }
+
+    .btn-copy-case {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #12345A;
+      background: #ffffff;
+      color: #12345A;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-copy-case:hover {
+      background: #12345A;
+      color: #ffffff;
+    }
+
+    .modelo-sae-text {
+      font-family: Arial, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #1e293b;
+      text-align: justify;
+      background: #ffffff;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+  </style>
 </head>
 
 <body>
   <div class="jf-module-wrap">
+
+    <!-- CABECERA INSTITUCIONAL -->
     <header class="jf-header">
       <div class="jf-brand">
         <img src="assets/logo-jusfiscal.svg" alt="JUSFISCAL" class="jf-logo" />
         <div class="jf-title-group">
           <span class="jf-app">JUSFISCAL · Poder Judicial de Tucumán</span>
           <h1 class="jf-module">Casos Prácticos</h1>
-          <span class="jf-subtitle">Supuestos Frecuentes y Modelos de Resolución</span>
+          <span class="jf-subtitle">Supuestos Testigo Resueltos por Fuero y Criterios de Liquidación</span>
         </div>
       </div>
       <div class="header-actions">
@@ -26,25 +245,354 @@
       </div>
     </header>
 
-    <main
-      style="background:#fff; border:1px solid #cbd5e1; border-radius:12px; padding:28px; margin-top:20px; line-height:1.6;">
-      <h2 style="color:#12345A; margin-top:0;">Banco de Casos Prácticos (Próximamente en Versión 1.1)</h2>
-      <p>Aquí se publicarán casos testigo resueltos para cada fuero: planillas complementarias, costas por su orden o
-        prorrateadas, diligenciamientos vía Oficial Ad Hoc o Juzgado de Paz Lega, y supuestos de exención legal o
-        Beneficio para Litigar sin Gastos (BPLSG)[cite: 2].</p>
-      <p>Todas estas reglas ya se encuentran automatizadas dentro de los liquidadores activos de la plataforma.</p>
-      <div style="margin-top:22px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="liquidar.html" class="btn-primary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Comenzar a Liquidar</a>
-        <a href="index.html" class="btn-secondary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Volver al Inicio</a>
+    <!-- FILTROS POR FUERO -->
+    <section class="cases-intro">
+      <h2>Jurisprudencia Práctica y Modelos de Planilla Fiscal</h2>
+      <p>
+        Seleccioná un fuero para visualizar supuestos testigo resueltos con el motor de cálculo de
+        <strong>JUSFISCAL</strong>, el encuadre tributario aplicado y el proveído SAE resultante:
+      </p>
+      <div class="filter-bar">
+        <button type="button" class="filter-btn active" onclick="filtrarCasos('todos', this)">Todos los Fueros
+          (6)</button>
+        <button type="button" class="filter-btn" onclick="filtrarCasos('apremios', this)">Cobros y Apremios (2)</button>
+        <button type="button" class="filter-btn" onclick="filtrarCasos('documentos', this)">Documentos y Locaciones
+          (2)</button>
+        <button type="button" class="filter-btn" onclick="filtrarCasos('trabajo', this)">Fuero del Trabajo (2)</button>
       </div>
-    </main>
+    </section>
 
-    <footer style="text-align:center; margin-top:28px; color:#64748b; font-size:13px;">
+    <!-- LISTADO DE CASOS -->
+    <section class="cases-list" id="listaCasos">
+
+      <!-- CASO 1: APREMIOS -->
+      <article class="case-card fuero-apremios" data-fuero="apremios">
+        <div class="case-top">
+          <span class="fuero-badge">OGA COBROS Y APREMIOS</span>
+          <span class="case-total-pill">Total Planilla: $ 12.100,00</span>
+        </div>
+        <h3>Caso 1: Ejecución Fiscal con Oficial Ad Hoc y Sentencia de Trance y Remate</h3>
+        <div class="case-cols">
+          <div class="case-box">
+            <strong class="box-lbl">Planteo del Expediente</strong>
+            Demanda de apremio por <strong>$320.000</strong> promovida por apoderado fiscal (abogado). La intimación de
+            pago fue diligenciada mediante <strong>Oficial Ad Hoc</strong>. La demandada no compareció y se dictó
+            sentencia ordenando llevar adelante la ejecución con costas a la vencida (2 escritos y 7 fojas de
+            actuación).
+          </div>
+          <div class="case-box">
+            <strong class="box-lbl">Criterio Aplicado en JUSFISCAL</strong>
+            • <strong>Tasa Proporcional (1%):</strong> $3.200 es inferior al piso legal, por lo que aplica
+            automáticamente el <strong>mínimo de $4.200</strong>.<br>
+            • <strong>Intimación de Pago:</strong> $0,00 por intervención de Oficial Ad Hoc.<br>
+            • <strong>Exención Actora:</strong> El Fisco está exento al inicio, pero el demandado condenado repone la
+            totalidad ($12.100).
+          </div>
+        </div>
+        <div class="modelo-sae-wrap">
+          <div class="modelo-sae-header">
+            <span>Vista previa Informe + Decreto SAE</span>
+            <button type="button" class="btn-copy-case" onclick="copiarModelo(this)">📋 Copiar modelo</button>
+          </div>
+          <div class="modelo-sae-text">
+            <strong>San Miguel de Tucumán.-</strong> En el día de la fecha se procede a practicar planilla fiscal
+            conforme lo ordenado en autos. <strong>Determinación fiscal (Ley 5121 - 8467 Ley Impositiva de la
+              Provincia):</strong><br>
+            <strong>La ACTORA:</strong> • ART. 43 PTO. 3: APERSONAMIENTO X 1 = $ 1.000,00.- • ART. 41 PTO. 1: ESCR. DE
+            PROF. X 2 = $ 2.000,00.- • ART. 42 PTO. 2: HOJA DE ACT. 1° INST. X 7 = $ 4.900,00.- <strong>TOTAL ACTORA: $
+              7.900,00.-</strong> (Exenta — Arts. 41 inc. 3 y 43 inc. 3 Ley 8467)<br>
+            <strong>El DEMANDADO:</strong> • ART. 44: TASA PROPORCIONAL DE JUSTICIA (1% - Mínimo legal) = $ 4.200,00.-
+            <strong>TOTAL DEMANDADO: $ 4.200,00.-</strong><br>
+            <strong>TOTAL GENERAL PLANILLA FISCAL: $ 12.100,00.-</strong><br>
+            <strong>San Miguel de Tucumán.-</strong> Téngase presente la planilla fiscal practicada por Secretaría por
+            la suma total de <strong>$ 12.100,00</strong>. Atento a lo resuelto en autos (<strong>condenada en costas la
+              parte demandada</strong>), <strong>intímese a la parte demandada</strong> para que en el perentorio
+            término de <strong>72 horas</strong> abone la suma total de <strong>$ 12.100,00</strong> en concepto de
+            reposición de planilla fiscal, bajo apercibimiento de pasar los antecedentes a la Dirección General de
+            Rentas de la Provincia a sus efectos.-
+          </div>
+        </div>
+      </article>
+
+      <!-- CASO 2: APREMIOS COMPLEMENTARIA -->
+      <article class="case-card fuero-apremios" data-fuero="apremios">
+        <div class="case-top">
+          <span class="fuero-badge">OGA COBROS Y APREMIOS</span>
+          <span class="case-total-pill">Total Planilla: $ 5.900,00</span>
+        </div>
+        <h3>Caso 2: Planilla Fiscal Complementaria con Traba de Embargo en Justicia de Paz</h3>
+        <div class="case-cols">
+          <div class="case-box">
+            <strong class="box-lbl">Planteo del Expediente</strong>
+            Ya existía planilla fiscal aprobada en autos. Con posterioridad, la actora solicitó traba de embargo sobre
+            bienes muebles en el interior provincial mediante <strong>Juzgado de Paz Lega</strong>, generándose 1
+            escrito de abogado y 6 fojas de actuación posteriores.
+          </div>
+          <div class="case-box">
+            <strong class="box-lbl">Criterio Aplicado en JUSFISCAL</strong>
+            • <strong>Modo Complementaria:</strong> Desactiva automáticamente la tasa proporcional, el apersonamiento y
+            la intimación inicial para evitar doble imposición.<br>
+            • <strong>Embargo vía Justicia de Paz:</strong> Se computa al 50% (<strong>$700,00</strong> en lugar de
+            $1.400,00).
+          </div>
+        </div>
+        <div class="modelo-sae-wrap">
+          <div class="modelo-sae-header">
+            <span>Vista previa Informe + Decreto SAE</span>
+            <button type="button" class="btn-copy-case" onclick="copiarModelo(this)">📋 Copiar modelo</button>
+          </div>
+          <div class="modelo-sae-text">
+            <strong>San Miguel de Tucumán.-</strong> En el día de la fecha se procede a practicar planilla fiscal
+            complementaria conforme lo ordenado en autos. <strong>Determinación fiscal (Ley 5121 - 8467 Ley Impositiva
+              de la Provincia):</strong><br>
+            <strong>La ACTORA:</strong> • ART. 41 PTO. 1: ESCR. DE PROF. X 1 = $ 1.000,00.- • ART. 42 PTO. 2: HOJA DE
+            ACT. 1° INST. X 6 = $ 4.200,00.- • ART. 43 PTO. 2: EMBARGO (Justicia de Paz 50%) X 1 = $ 700,00.-
+            <strong>TOTAL ACTORA: $ 5.900,00.-</strong><br>
+            <strong>El DEMANDADO:</strong> El DEMANDADO no generó gastos originados de presentaciones.-<br>
+            <strong>TOTAL GENERAL PLANILLA FISCAL: $ 5.900,00.-</strong><br>
+            <strong>San Miguel de Tucumán.-</strong> Téngase presente la planilla fiscal complementaria practicada por
+            Secretaría por la suma total de <strong>$ 5.900,00</strong>. Se deja constancia de que la tasa proporcional
+            de justicia, apersonamiento e intimación de pago fueron oportunamente liquidados en la planilla fiscal
+            anterior. Atento a lo resuelto en autos (<strong>condenada en costas la parte demandada</strong>),
+            <strong>intímese a la parte demandada</strong> para que en el perentorio término de <strong>72
+              horas</strong> abone la suma total de <strong>$ 5.900,00</strong>, bajo apercibimiento de pasar los
+            antecedentes a la Dirección General de Rentas de la Provincia a sus efectos.-
+          </div>
+        </div>
+      </article>
+
+      <!-- CASO 3: DOCUMENTOS Y LOCACIONES -->
+      <article class="case-card fuero-documentos" data-fuero="documentos">
+        <div class="case-top">
+          <span class="fuero-badge doc">DOCUMENTOS Y LOCACIONES</span>
+          <span class="case-total-pill">Total Planilla: $ 10.100,00</span>
+        </div>
+        <h3>Caso 3: Cobro Ejecutivo con Recaudos Iniciales Abonados y Embargo Posterior</h3>
+        <div class="case-cols">
+          <div class="case-box">
+            <strong class="box-lbl">Planteo del Expediente</strong>
+            Juicio ejecutivo en el que la actora abonó al inicio la tasa proporcional (1%), el apersonamiento y el
+            mandamiento de intimación. Durante el trámite se trabó embargo ejecutivo (1) y se acumularon 3 escritos de
+            abogado y 8 fojas de actuación, con sentencia firme y costas a la demandada.
+          </div>
+          <div class="case-box">
+            <strong class="box-lbl">Criterio Aplicado en JUSFISCAL</strong>
+            • <strong>Recaudos Iniciales en Gris ($0):</strong> Al estar cumplidos al inicio, no se vuelven a liquidar
+            tasa proporcional, apersonamiento ni intimación.<br>
+            • <strong>Rubros Posteriores:</strong> Se liquidan únicamente el embargo ($1.400), los 3 escritos ($3.000) y
+            las 8 fojas ($5.600) + 1 escrito de pedido de planilla.
+          </div>
+        </div>
+        <div class="modelo-sae-wrap">
+          <div class="modelo-sae-header">
+            <span>Vista previa Informe + Decreto SAE</span>
+            <button type="button" class="btn-copy-case" onclick="copiarModelo(this)">📋 Copiar modelo</button>
+          </div>
+          <div class="modelo-sae-text">
+            <strong>San Miguel de Tucumán.-</strong> En el día de la fecha se procede a practicar planilla fiscal
+            conforme lo ordenado en autos. <strong>Determinación fiscal (Ley 5121 - 8467 Ley Impositiva de la
+              Provincia):</strong><br>
+            <strong>La ACTORA:</strong> • ART. 43 INC. 2: EMBARGO / SECUESTRO X 1 = $ 1.400,00.- • ART. 41 INC. 1: ESCR.
+            DE PROF. X 3 = $ 3.000,00.- • ART. 42 INC. 2: HOJA DE ACT. 1° INST. X 8 = $ 5.600,00.- <strong>• SUBTOTAL
+              ACTORA: $ 10.000,00.-</strong><br>
+            <strong>El DEMANDADO:</strong> El DEMANDADO no generó gastos originados de presentaciones.-<br>
+            <strong>• TOTAL PLANILLA FISCAL: $ 10.000,00.-</strong><br>
+            <strong>San Miguel de Tucumán.-</strong> Téngase presente la planilla fiscal practicada por Secretaría.
+            Encontrándose <strong>condenada en costas la parte demandada</strong>, notifíquesela a fin que —dentro del
+            término de <strong>72 horas</strong>— reponga la planilla practicada en autos a su cargo, la que asciende a
+            la suma de <strong>$ 10.000,00</strong>, bajo apercibimiento de pasar los antecedentes a la Dirección
+            General de Rentas de la Provincia a los fines que hubiere lugar.-
+          </div>
+        </div>
+      </article>
+
+      <!-- CASO 4: DOCUMENTOS DESALOJO -->
+      <article class="case-card fuero-documentos" data-fuero="documentos">
+        <div class="case-top">
+          <span class="fuero-badge doc">DOCUMENTOS Y LOCACIONES</span>
+          <span class="case-total-pill">Total Planilla: $ 17.500,00</span>
+        </div>
+        <h3>Caso 4: Desalojo con Canon Locativo e Inspección Ocular (Saldo Adeudado)</h3>
+        <div class="case-cols">
+          <div class="case-box">
+            <strong class="box-lbl">Planteo del Expediente</strong>
+            Desalojo por falta de pago con alquiler mensual pactado de <strong>$250.000</strong>. Al iniciar el juicio
+            la actora solo abonó el mínimo de $4.200 en concepto de tasa proporcional. Se realizó inspección ocular
+            ($2.000), 2 escritos y 5 fojas.
+          </div>
+          <div class="case-box">
+            <strong class="box-lbl">Criterio Aplicado en JUSFISCAL</strong>
+            • <strong>Base Imponible (Art. 323 inc. 1 CTP):</strong> $250.000 × 3 meses = $750.000 × 2% =
+            <strong>$15.000</strong>.<br>
+            • <strong>Deducción de Pago Parcial:</strong> $15.000 − $4.200 ya abonados = <strong>$10.800</strong> de
+            diferencia adeudada + $2.000 inspección + $2.000 escritos + $3.500 fojas.
+          </div>
+        </div>
+        <div class="modelo-sae-wrap">
+          <div class="modelo-sae-header">
+            <span>Vista previa Informe + Decreto SAE</span>
+            <button type="button" class="btn-copy-case" onclick="copiarModelo(this)">📋 Copiar modelo</button>
+          </div>
+          <div class="modelo-sae-text">
+            <strong>San Miguel de Tucumán.-</strong> En el día de la fecha se procede a practicar planilla fiscal
+            conforme lo ordenado en autos. <strong>Determinación fiscal (Ley 5121 - 8467 Ley Impositiva de la
+              Provincia):</strong><br>
+            <strong>La ACTORA:</strong> • ART. 44: TASA DE JUSTICIA (2% s/ 3 meses de alquiler ($ 750.000,00) [deducido
+            $ 4.200,00 abonado]) = $ 10.800,00.- • ART. 43 INC. 6: INSPECCIÓN OCULAR X 1 = $ 2.000,00.- • ART. 41 INC.
+            1: ESCR. DE PROF. X 2 = $ 2.000,00.- • ART. 42 INC. 2: HOJA DE ACT. 1° INST. X 5 = $ 3.500,00.- <strong>•
+              SUBTOTAL ACTORA: $ 18.300,00.-</strong><br>
+            <strong>El DEMANDADO:</strong> El DEMANDADO no generó gastos originados de presentaciones.-<br>
+            <strong>• TOTAL PLANILLA FISCAL: $ 18.300,00.-</strong><br>
+            <strong>San Miguel de Tucumán.-</strong> Téngase presente la planilla fiscal practicada por Secretaría.
+            Encontrándose <strong>condenada en costas la parte demandada</strong>, notifíquesela a fin que —dentro del
+            término de <strong>72 horas</strong>— reponga la planilla practicada en autos a su cargo, la que asciende a
+            la suma de <strong>$ 18.300,00</strong>, bajo apercibimiento de pasar los antecedentes a la Dirección
+            General de Rentas de la Provincia a los fines que hubiere lugar.-
+          </div>
+        </div>
+      </article>
+
+      <!-- CASO 5: TRABAJO -->
+      <article class="case-card fuero-trabajo" data-fuero="trabajo">
+        <div class="case-top">
+          <span class="fuero-badge trab">FUERO DEL TRABAJO</span>
+          <span class="case-total-pill">A Intimar Demandada: $ 45.480,00</span>
+        </div>
+        <h3>Caso 5: Cobro de Pesos Laboral con Costas Prorrateadas (40% Actora / 60% Demandada)</h3>
+        <div class="case-cols">
+          <div class="case-box">
+            <strong class="box-lbl">Planteo del Expediente</strong>
+            Sentencia definitiva con condena de <strong>$3.000.000</strong> e imposición de costas en un <strong>40% a
+              la parte actora (trabajador)</strong> y <strong>60% a la empleadora</strong>. Hubo aceptación de cargo
+            pericial ($2.000), informe pericial ($2.100), 4 escritos y 11 fojas de actuación.
+          </div>
+          <div class="case-box">
+            <strong class="box-lbl">Criterio Aplicado en JUSFISCAL</strong>
+            • <strong>Total Planilla:</strong> $60.000 (2%) + $2.000 + $2.100 + $4.000 + $7.700 =
+            <strong>$75.800</strong>.<br>
+            • <strong>Gratuidad Art. 331 inc. 1 CTP:</strong> El 40% del trabajador ($30.320) se liquida contablemente
+            pero queda <strong>exento de intimación</strong>; solo se intima el 60% ($45.480) a la demandada.
+          </div>
+        </div>
+        <div class="modelo-sae-wrap">
+          <div class="modelo-sae-header">
+            <span>Vista previa Informe + Decreto SAE</span>
+            <button type="button" class="btn-copy-case" onclick="copiarModelo(this)">📋 Copiar modelo</button>
+          </div>
+          <div class="modelo-sae-text">
+            <strong>San Miguel de Tucumán.-</strong> En el día de la fecha se procede a practicar planilla fiscal
+            conforme lo ordenado en autos. <strong>Determinación fiscal (Ley 5121 - 8467 Ley Impositiva de la
+              Provincia):</strong><br>
+            <strong>La ACTORA:</strong> • ART. 44 INC. 1: IMPUESTO DE JUSTICIA (2% s/ $ 3.000.000,00) = $ 60.000,00.- •
+            ART. 41 INC. 2: ACEPTACIÓN DE CARGO PERICIAL X 1 = $ 2.000,00.- • ART. 43 INC. 8: INFORME PERICIAL X 1 = $
+            2.100,00.- • ART. 41 INC. 1: ESCRITOS PROFESIONALES X 2 = $ 2.000,00.- • ART. 42 INC. 2: HOJAS DE ACTUACIÓN
+            1° INST. X 6 = $ 4.200,00.- <strong>• SUBTOTAL ACTORA: $ 70.300,00.-</strong><br>
+            <strong>La DEMANDADA:</strong> • ART. 41 INC. 1: ESCRITOS PROFESIONALES X 2 = $ 2.000,00.- • ART. 42 INC. 2:
+            HOJAS DE ACTUACIÓN 1° INST. X 5 = $ 3.500,00.- <strong>• SUBTOTAL DEMANDADA: $ 5.500,00.-</strong><br>
+            <strong>• TOTAL PLANILLA FISCAL: $ 75.800,00.-</strong><br>
+            <strong>Distribución según imposición de costas (40% Actora / 60% Demandada):</strong> Parte Actora: $
+            30.320,00 · Parte Demandada: $ 45.480,00.-<br>
+            <strong>San Miguel de Tucumán.-</strong> Téngase presente la planilla fiscal practicada por Secretaría. En
+            atención a lo dispuesto por el art. 331 inc. 1 del Código Tributario Provincial (Ley N° 5121), art. 20 de la
+            LCT y art. 13 del CPL, declárase a la <b>parte actora EXENTA del pago</b> de la proporción de planilla
+            fiscal a su cargo ($ 30.320,00). Atento a la condena en costas dispuesta en autos, notifíquese a la parte
+            <b>demandada</b> a fin que —dentro del término de <b>CINCO (5) DÍAS</b>— reponga la planilla fiscal a su
+            cargo, la que asciende a la suma de <b>$ 45.480,00</b>, bajo apercibimiento de formularse el correspondiente
+            cargo tributario y remitirse los antecedentes a la Dirección General de Rentas de la Provincia.-
+          </div>
+        </div>
+      </article>
+
+      <!-- CASO 6: TRABAJO HOMOLOGACIÓN -->
+      <article class="case-card fuero-trabajo" data-fuero="trabajo">
+        <div class="case-top">
+          <span class="fuero-badge trab">FUERO DEL TRABAJO</span>
+          <span class="case-total-pill">A Intimar Empleadora: $ 34.800,00</span>
+        </div>
+        <h3>Caso 6: Homologación de Convenio Conciliatorio (Art. 15 LCT) con Costas Convenidas</h3>
+        <div class="case-cols">
+          <div class="case-box">
+            <strong class="box-lbl">Planteo del Expediente</strong>
+            Acuerdo conciliatorio homologado judicialmente por la suma de <strong>$1.500.000</strong>, pactándose que la
+            totalidad de las costas y gastos fiscales serán soportados por la parte empleadora (2 escritos y 4 fojas de
+            actuación).
+          </div>
+          <div class="case-box">
+            <strong class="box-lbl">Criterio Aplicado en JUSFISCAL</strong>
+            • <strong>Alícuota (2%):</strong> $1.500.000 × 2% = <strong>$30.000</strong> + $2.000 escritos + $2.800
+            fojas = <strong>$34.800</strong>.<br>
+            • <strong>Redacción Adaptada:</strong> Sustituye "condena en costas" por <em>"conforme lo convenido en el
+              acuerdo homologado en autos"</em>.
+          </div>
+        </div>
+        <div class="modelo-sae-wrap">
+          <div class="modelo-sae-header">
+            <span>Vista previa Informe + Decreto SAE</span>
+            <button type="button" class="btn-copy-case" onclick="copiarModelo(this)">📋 Copiar modelo</button>
+          </div>
+          <div class="modelo-sae-text">
+            <strong>San Miguel de Tucumán.-</strong> En el día de la fecha se procede a practicar planilla fiscal
+            conforme lo ordenado en autos. <strong>Determinación fiscal (Ley 5121 - 8467 Ley Impositiva de la
+              Provincia):</strong><br>
+            <strong>La ACTORA:</strong> • ART. 44 INC. 1: IMPUESTO DE JUSTICIA (2% s/ $ 1.500.000,00) = $ 30.000,00.- •
+            ART. 41 INC. 1: ESCRITOS PROFESIONALES X 1 = $ 1.000,00.- • ART. 42 INC. 2: HOJAS DE ACTUACIÓN 1° INST. X 2
+            = $ 1.400,00.- <strong>• SUBTOTAL ACTORA: $ 32.400,00.-</strong><br>
+            <strong>La DEMANDADA:</strong> • ART. 41 INC. 1: ESCRITOS PROFESIONALES X 1 = $ 1.000,00.- • ART. 42 INC. 2:
+            HOJAS DE ACTUACIÓN 1° INST. X 2 = $ 1.400,00.- <strong>• SUBTOTAL DEMANDADA: $ 2.400,00.-</strong><br>
+            <strong>• TOTAL PLANILLA FISCAL: $ 34.800,00.-</strong><br>
+            <strong>San Miguel de Tucumán.-</strong> Téngase presente la planilla fiscal practicada por Secretaría.
+            Conforme lo convenido en el acuerdo homologado en autos, notifíquese a la parte <b>demandada</b> a fin que
+            —dentro del término de <b>CINCO (5) DÍAS</b>— reponga la planilla fiscal a su cargo, la que asciende a la
+            suma de <b>$ 34.800,00</b>, bajo apercibimiento de formularse el correspondiente cargo tributario y
+            remitirse los antecedentes a la Dirección General de Rentas de la Provincia.-
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+      <a href="liquidar.html" class="btn-primary-jf"
+        style="text-decoration:none; padding:12px 24px; border-radius:10px;">Practicar en los Liquidadores →</a>
+      <a href="index.html" class="btn-secondary-jf"
+        style="text-decoration:none; padding:12px 24px; border-radius:10px;">Volver al Inicio</a>
+    </div>
+
+    <footer style="text-align:center; margin-top:32px; color:#64748b; font-size:13px;">
       <strong>JUSFISCAL</strong> · Desarrollado por <strong>José Manuel Arnedo</strong> — Poder Judicial de Tucumán
     </footer>
   </div>
+
+  <script>
+    function filtrarCasos(fuero, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      document.querySelectorAll('.case-card').forEach(card => {
+        if (fuero === 'todos' || card.dataset.fuero === fuero) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function copiarModelo(btn) {
+      const box = btn.closest('.modelo-sae-wrap').querySelector('.modelo-sae-text');
+      const texto = box.innerText;
+      navigator.clipboard.writeText(texto).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copiado';
+        btn.style.background = '#12345A';
+        btn.style.color = '#ffffff';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.background = '#ffffff';
+          btn.style.color = '#12345A';
+        }, 1800);
+      });
+    }
+  </script>
 </body>
 
 </html>

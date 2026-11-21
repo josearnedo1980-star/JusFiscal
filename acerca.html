@@ -7,6 +7,67 @@
   <title>Acerca de · JUSFISCAL</title>
   <link rel="icon" href="assets/logo-jusfiscal.svg?v=2" type="image/svg+xml" />
   <link rel="stylesheet" href="css/jusfiscal.css" />
+  <style>
+    .jf-about-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 26px 28px;
+      margin-top: 20px;
+      line-height: 1.65;
+      color: #1e293b;
+      box-shadow: 0 2px 8px rgba(18, 52, 90, 0.04);
+    }
+
+    .jf-about-card h2 {
+      color: #12345A;
+      font-size: 1.15rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+
+    .jf-badge-dnda {
+      display: inline-block;
+      background: #eff6ff;
+      color: #12345A;
+      border: 1px solid #93c5fd;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin: 6px 0 12px 0;
+    }
+
+    .jf-grid-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .jf-info-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 0.92rem;
+    }
+
+    .jf-info-box strong {
+      color: #12345A;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .jf-actions-bar {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,7 +78,7 @@
         <div class="jf-title-group">
           <span class="jf-app">JUSFISCAL · Poder Judicial de Tucumán</span>
           <h1 class="jf-module">Acerca de la Plataforma</h1>
-          <span class="jf-subtitle">Información Institucional y Autoría · Versión 1.0</span>
+          <span class="jf-subtitle">Ficha Institucional, Marco Legal y Propiedad Intelectual · Versión 1.1</span>
         </div>
       </div>
       <div class="header-actions">
@@ -26,21 +87,81 @@
       </div>
     </header>
 
-    <main
-      style="background:#fff; border:1px solid #cbd5e1; border-radius:12px; padding:28px; margin-top:20px; line-height:1.6;">
-      <h2 style="color:#12345A; margin-top:0;">Sistema de Liquidación de Planillas Fiscales (Versión 1.0)</h2>
-      <p><strong>JUSFISCAL</strong> es una herramienta digital diseñada para asistir en la confección, verificación y
-        estandarización de planillas fiscales y decretos para el Sistema de Administración de Expedientes (SAE) conforme
-        el Código Tributario Provincial (Ley N° 5121) y la Ley Impositiva vigente (Ley N° 8467)[cite: 2, 3].</p>
-      <p><strong>Autoría y Desarrollo:</strong> Obra intelectual creada y desarrollada íntegramente por <strong>José
-          Manuel Arnedo</strong>[cite: 2, 3].</p>
-      <div style="margin-top:22px; display:flex; gap:12px;">
-        <a href="liquidar.html" class="btn-primary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Comenzar a Liquidar</a>
-        <a href="index.html" class="btn-secondary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Volver al Inicio</a>
-      </div>
+    <main>
+      <section class="jf-about-card">
+        <h2>1. Propósito y Alcance Institucional</h2>
+        <p>
+          <strong>JUSFISCAL</strong> es una plataforma web estática diseñada para asistir a operadores judiciales,
+          prosecretarios y secretarios en la liquidación automatizada de planillas fiscales, tasas de justicia y
+          sellados de actuación, generando de manera estandarizada el informe actuarial y el decreto de intimación
+          listos para su incorporación al <strong>Sistema de Administración de Expedientes (SAE)</strong>.
+        </p>
+        <div class="jf-grid-info">
+          <div class="jf-info-box">
+            <strong>Estandarización de Criterios</strong>
+            Unifica la aplicación de alícuotas proporcionales, montos mínimos, tasas fijas y exenciones legales en los
+            distintos fueros.
+          </div>
+          <div class="jf-info-box">
+            <strong>Cero Dependencia Técnica</strong>
+            Funciona íntegramente en el navegador web sin requerir instalación de programas ni conexión o modificación
+            sobre las bases de datos del SAE.
+          </div>
+          <div class="jf-info-box">
+            <strong>Preservación del Conocimiento</strong>
+            Integra guías prácticas, digesto normativo vigente y casos testigo para reducir errores materiales y
+            acelerar los tiempos de despacho.
+          </div>
+        </div>
+      </section>
+
+      <section class="jf-about-card">
+        <h2>2. Marco Normativo Implementado</h2>
+        <ul style="padding-left: 20px; margin: 0;">
+          <li style="margin-bottom: 6px;"><strong>Código Tributario Provincial (Ley N° 5121):</strong> Arts. 321, 331 y
+            concordantes (hecho imponible, oportunidades de pago y exenciones legales).</li>
+          <li style="margin-bottom: 6px;"><strong>Ley Impositiva de la Provincia de Tucumán (Ley N° 8467):</strong>
+            Arts. 41 a 47 (tasas proporcionales del 1% y 2%, mínimos legales, actuaciones, escritos, apersonamientos y
+            diligenciamientos).</li>
+          <li><strong>Normativa Procesal y Especial:</strong> Código Procesal Civil y Comercial (CPCCT - Ley N° 9531),
+            Código Procesal Laboral (CPL - art. 13) y Ley de Contrato de Trabajo (art. 20).</li>
+        </ul>
+      </section>
+
+      <section class="jf-about-card">
+        <h2>3. Autoría y Registro Oficial de Propiedad Intelectual</h2>
+        <div class="jf-badge-dnda">
+          ✔ Obra Registrada — DNDA Legajo N° RL-2026-112495759-APN-DNDA#MJ
+        </div>
+        <p style="margin-top: 4px;">
+          <strong>Autor y Titular Exclusivo:</strong> José Manuel Arnedo (OGA de Cobros y Apremios — Poder Judicial de
+          Tucumán).
+        </p>
+        <p style="font-size: 0.92rem; color: #475569; margin-bottom: 0;">
+          Software original inscripto en el Registro Nacional de Derecho de Autor (Dirección Nacional del Derecho de
+          Autor — Ministerio de Justicia de la Nación) bajo <strong>Legajo N° RL-2026-112495759-APN-DNDA#MJ</strong>
+          (Inscripción: 20/11/2026 — Expte. EX-2026-111905504- -APN-DNDA#MJ), protegido por la Ley N° 11.723[cite: 1, 3,
+          4]. Desarrollado como aporte técnico de uso interno no comercial para optimizar la gestión judicial.
+        </p>
+
+        <div class="jf-actions-bar">
+          <a href="liquidar.html" class="btn-primary-jf"
+            style="text-decoration:none; padding:10px 18px; border-radius:8px;">Comenzar a Liquidar</a>
+          <a href="normativa.html" class="btn-secondary-jf"
+            style="text-decoration:none; padding:10px 18px; border-radius:8px;">Consultar Normativa</a>
+          <a href="index.html" class="btn-secondary-jf"
+            style="text-decoration:none; padding:10px 18px; border-radius:8px;">← Volver al Inicio</a>
+        </div>
+      </section>
     </main>
+
+    <footer id="autorFirma"
+      style="text-align:center; margin-top:28px; padding-bottom:16px; color:#64748b; font-size:13px; line-height:1.5;">
+      <div style="font-weight:700; color:#1e293b;">Desarrollado por José Manuel Arnedo</div>
+      <div>OGA de Cobros y Apremios — Poder Judicial de Tucumán</div>
+      <div style="font-size:12px; margin-top:2px;">JUSFISCAL · Versión 1.1 · Registro DNDA RL-2026-112495759-APN-DNDA#MJ
+      </div>
+    </footer>
   </div>
 </body>
 

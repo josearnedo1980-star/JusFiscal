@@ -7,6 +7,99 @@
   <title>Aprender · JUSFISCAL</title>
   <link rel="icon" href="assets/logo-jusfiscal.svg?v=2" type="image/svg+xml" />
   <link rel="stylesheet" href="css/jusfiscal.css" />
+  <style>
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .video-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(18, 52, 90, 0.04);
+    }
+
+    .video-badge {
+      display: inline-block;
+      background: #e0ecff;
+      color: #12345A;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      width: fit-content;
+    }
+
+    .video-frame-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #0f172a;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+    }
+
+    .video-frame-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #f8fafc;
+      text-align: center;
+      padding: 16px;
+      background: linear-gradient(135deg, #12345A 0%, #1e4d82 100%);
+    }
+
+    .script-box {
+      background: #f8fafc;
+      border-left: 3px solid #5D87B4;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .concept-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      line-height: 1.55;
+    }
+
+    .concept-card h3 {
+      color: #12345A;
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,7 +110,7 @@
         <div class="jf-title-group">
           <span class="jf-app">JUSFISCAL · Poder Judicial de Tucumán</span>
           <h1 class="jf-module">Aprender</h1>
-          <span class="jf-subtitle">Guías Prácticas y Criterios de Liquidación Fiscal</span>
+          <span class="jf-subtitle">Guía Visual de Uso y Criterios de Liquidación Fiscal</span>
         </div>
       </div>
       <div class="header-actions">
@@ -26,22 +119,107 @@
       </div>
     </header>
 
-    <main
-      style="background:#fff; border:1px solid #cbd5e1; border-radius:12px; padding:28px; margin-top:20px; line-height:1.6;">
-      <h2 style="color:#12345A; margin-top:0;">Centro de Aprendizaje (Próximamente en Versión 1.1)</h2>
-      <p>Esta sección reunirá guías paso a paso para la confección de planillas fiscales en el Sistema de Administración
-        de Expedientes (SAE), criterios de imposición de costas, exenciones legales y ejemplos comentados por fuero.</p>
-      <p>Mientras tanto, podés utilizar los liquidadores activos con reglas procesales integradas desde el módulo
-        principal.</p>
-      <div style="margin-top:22px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="liquidar.html" class="btn-primary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Comenzar a Liquidar</a>
-        <a href="index.html" class="btn-secondary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Volver al Inicio</a>
-      </div>
-    </main>
+    <!-- BLOQUE 1: MICRO-TUTORIALES EN VIDEO -->
+    <section style="background:#fff; border:1px solid #cbd5e1; border-radius:12px; padding:24px; margin-top:20px;">
+      <h2 style="color:#12345A; margin-top:0; margin-bottom:6px;">Guía Rápida en Video (Sin Instructivos Largos)</h2>
+      <p style="color:#475569; margin-top:0; font-size:14.5px;">
+        Dos cápsulas breves con subtítulos en pantalla y resumen escrito debajo para operar la plataforma en segundos
+        desde cualquier terminal.
+      </p>
 
-    <footer style="text-align:center; margin-top:28px; color:#64748b; font-size:13px;">
+      <div class="video-grid">
+        <!-- VIDEO 1 -->
+        <article class="video-card">
+          <span class="video-badge">CÁPSULA 1 · 45 SEGUNDOS</span>
+          <h3 style="color:#12345A; margin:0;">Cómo funciona JUSFISCAL (Tour Rápido)</h3>
+          <div class="video-frame-wrap">
+            <!-- Reemplazar el div .video-placeholder por el iframe de Google Drive al subir el .mp4:
+            <iframe src="https://drive.google.com/file/d/ID_VIDEO_1/preview" allow="autoplay"></iframe>
+            -->
+            <div class="video-placeholder">
+              <strong style="font-size:15px; margin-bottom:6px;">▶ Video 1: Recorrido por la Plataforma</strong>
+              <span style="font-size:12.5px; opacity:0.9;">Listo para vincular archivo .mp4 subtitulado desde Google
+                Drive</span>
+            </div>
+          </div>
+          <div class="script-box">
+            <strong>Resumen paso a paso:</strong>
+            <ul style="margin:6px 0 0 18px; padding:0;">
+              <li><strong>Aprender:</strong> conceptos base de planilla fiscal y cargo tributario.</li>
+              <li><strong>Normativa:</strong> Ley Impositiva N° 8467 y Código Tributario a mano.</li>
+              <li><strong>Academia:</strong> práctica guiada sobre expedientes del SAE.</li>
+              <li><strong>Liquidar:</strong> ingreso directo al fuero (Apremios, Documentos y Locaciones o Trabajo).
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- VIDEO 2 -->
+        <article class="video-card">
+          <span class="video-badge">CÁPSULA 2 · 55 SEGUNDOS</span>
+          <h3 style="color:#12345A; margin:0;">Cómo usar el Liquidador (4 Acordeones)</h3>
+          <div class="video-frame-wrap">
+            <!-- Reemplazar el div .video-placeholder por el iframe de Google Drive al subir el .mp4:
+            <iframe src="https://drive.google.com/file/d/ID_VIDEO_2/preview" allow="autoplay"></iframe>
+            -->
+            <div class="video-placeholder">
+              <strong style="font-size:15px; margin-bottom:6px;">▶ Video 2: Esquema Universal de Liquidación</strong>
+              <span style="font-size:12.5px; opacity:0.9;">Listo para vincular archivo .mp4 subtitulado desde Google
+                Drive</span>
+            </div>
+          </div>
+          <div class="script-box">
+            <strong>Mecánica común a todos los fueros:</strong>
+            <ul style="margin:6px 0 0 18px; padding:0;">
+              <li><strong>Acordeón 1 (Varía por fuero):</strong> encuadre procesal, momento y costas.</li>
+              <li><strong>Acordeón 2 (Igual en todos):</strong> tasas fijas de justicia (apersonamiento, intimación,
+                embargos).</li>
+              <li><strong>Acordeón 3 (Igual en todos):</strong> escritos profesionales y Auxiliar de Conteo de fojas.
+              </li>
+              <li><strong>Acordeón 4 (Automático):</strong> genera la planilla y el decreto; tocás <em>Copiar para
+                  SAE</em> y pegás con <code>Ctrl + V</code>.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- BLOQUE 2: CONCEPTOS CLAVE -->
+    <section class="concept-grid">
+      <div class="concept-card">
+        <h3>1. ¿Qué es la Planilla Fiscal?</h3>
+        <p style="margin:0; color:#334155; font-size:14px;">
+          Es la liquidación oficial de las tasas de justicia y sellados de actuación devengados en el expediente
+          conforme el Código Tributario (Ley N° 5121) y la Ley Impositiva N° 8467.
+        </p>
+      </div>
+
+      <div class="concept-card">
+        <h3>2. Escritos vs. Fojas de Actuación</h3>
+        <p style="margin:0; color:#334155; font-size:14px;">
+          Las presentaciones de letrados tributan como <strong>escritos profesionales</strong> ($1.000 abogado / $500
+          procurador), mientras que decretos, oficios, cédulas y sentencias computan por <strong>foja de
+            actuación</strong> ($700).
+        </p>
+      </div>
+
+      <div class="concept-card">
+        <h3>3. Exenciones y Condena en Costas</h3>
+        <p style="margin:0; color:#334155; font-size:14px;">
+          El Fisco, el trabajador (art. 331 inc. 1 CTP) y quienes cuentan con BPLSG vigente están exentos de pago
+          anticipado; al dictarse sentencia, el condenado en costas repone los rubros devengados.
+        </p>
+      </div>
+    </section>
+
+    <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="liquidar.html" class="btn-primary-jf"
+        style="text-decoration:none; padding:10px 18px; border-radius:8px;">Comenzar a Liquidar</a>
+      <a href="index.html" class="btn-secondary-jf"
+        style="text-decoration:none; padding:10px 18px; border-radius:8px;">Volver al Inicio</a>
+    </div>
+
+    <footer id="autorFirma" style="text-align:center; margin-top:28px; color:#64748b; font-size:13px;">
       <strong>JUSFISCAL</strong> · Desarrollado por <strong>José Manuel Arnedo</strong> — Poder Judicial de Tucumán
     </footer>
   </div>

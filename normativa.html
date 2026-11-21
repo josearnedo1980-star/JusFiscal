@@ -7,17 +7,164 @@
   <title>Normativa · JUSFISCAL</title>
   <link rel="icon" href="assets/logo-jusfiscal.svg?v=2" type="image/svg+xml" />
   <link rel="stylesheet" href="css/jusfiscal.css" />
+  <style>
+    .viewer-panel {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-top: 20px;
+      box-shadow: 0 4px 16px rgba(18, 52, 90, 0.05);
+    }
+
+    .viewer-panel h2 {
+      color: #12345A;
+      margin: 0 0 6px 0;
+      font-size: 19px;
+    }
+
+    .viewer-panel p {
+      color: #475569;
+      margin: 0 0 16px 0;
+      font-size: 13.8px;
+    }
+
+    /* Pestañas de Leyes */
+    .law-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .law-tab {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      color: #12345A;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .law-tab:hover {
+      border-color: #12345A;
+      background: #eff6ff;
+    }
+
+    .law-tab.active {
+      background: #12345A;
+      color: #ffffff;
+      border-color: #12345A;
+      box-shadow: 0 3px 10px rgba(18, 52, 90, 0.2);
+    }
+
+    /* Barra de herramientas del visor */
+    .viewer-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      padding: 10px 16px;
+    }
+
+    .viewer-info {
+      font-size: 13px;
+      color: #12345A;
+      font-weight: 600;
+    }
+
+    .btn-drive-ext {
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #12345A;
+      color: #12345A;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .btn-drive-ext:hover {
+      background: #12345A;
+      color: #ffffff;
+    }
+
+    /* Marco del PDF */
+    .pdf-frame-wrap {
+      width: 100%;
+      height: 640px;
+      border: 1px solid #cbd5e1;
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+      background: #e2e8f0;
+    }
+
+    .pdf-frame-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Tabla resumida de referencia rápida */
+    .ref-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 22px 26px;
+      margin-top: 22px;
+    }
+
+    .ref-card h3 {
+      color: #12345A;
+      margin: 0 0 12px 0;
+      font-size: 17px;
+    }
+
+    .norma-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    .norma-table th {
+      background: #12345A;
+      color: #ffffff;
+      text-align: left;
+      padding: 10px 14px;
+    }
+
+    .norma-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .norma-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+  </style>
 </head>
 
 <body>
   <div class="jf-module-wrap">
+
+    <!-- CABECERA INSTITUCIONAL -->
     <header class="jf-header">
       <div class="jf-brand">
         <img src="assets/logo-jusfiscal.svg" alt="JUSFISCAL" class="jf-logo" />
         <div class="jf-title-group">
           <span class="jf-app">JUSFISCAL · Poder Judicial de Tucumán</span>
           <h1 class="jf-module">Normativa</h1>
-          <span class="jf-subtitle">Marco Legal Tributario y Arancelario Aplicable</span>
+          <span class="jf-subtitle">Consulta de Textos Legales Completos · Ley Impositiva y Códigos</span>
         </div>
       </div>
       <div class="header-actions">
@@ -26,32 +173,130 @@
       </div>
     </header>
 
-    <main
-      style="background:#fff; border:1px solid #cbd5e1; border-radius:12px; padding:28px; margin-top:20px; line-height:1.6;">
-      <h2 style="color:#12345A; margin-top:0;">Digesto Normativo de Tasas y Sellados Judiciales</h2>
-      <p>Los cálculos y decretos generados por <strong>JUSFISCAL (Versión 1.0)</strong> se encuentran estructurados
-        conforme la normativa tributaria y procesal vigente en la Provincia de Tucumán:</p>
-      <ul style="color:#1e293b; padding-left:20px; margin:12px 0;">
-        <li><strong>Ley N° 5121:</strong> Código Tributario Provincial (arts. 321, 331 y concordantes)[cite: 2, 3].</li>
-        <li><strong>Ley N° 8467:</strong> Ley Impositiva de la Provincia (arts. 41, 42, 43 y 44 — tasas proporcionales,
-          actuaciones, escritos, apersonamientos y diligenciamientos)[cite: 2, 3].</li>
-        <li><strong>Leyes Procesales y de Fondo:</strong> CPCCT, CPL (art. 13) y LCT (art. 20) en materia de gratuidad y
-          costas[cite: 2].</li>
-      </ul>
-      <p style="font-size:13.5px; color:#64748b;">El compendio completo de artículos concordados se incorporará en la
-        próxima actualización.</p>
-      <div style="margin-top:22px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="liquidar.html" class="btn-primary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Comenzar a Liquidar</a>
-        <a href="index.html" class="btn-secondary-jf"
-          style="text-decoration:none; padding:10px 18px; border-radius:8px;">Volver al Inicio</a>
-      </div>
-    </main>
+    <!-- VISOR DE TEXTOS LEGALES COMPLETOS -->
+    <section class="viewer-panel">
+      <h2>Biblioteca Legal Integrada (Textos Completos)</h2>
+      <p>
+        Seleccioná la norma que deseás consultar. Podés buscar palabras o artículos dentro del documento usando la lupa
+        del visor o presionando <strong>Ctrl + F</strong>:
+      </p>
 
-    <footer style="text-align:center; margin-top:28px; color:#64748b; font-size:13px;">
+      <div class="law-tabs">
+        <button type="button" class="law-tab active" onclick="cargarLey('impositiva', this)">
+          📘 Ley Impositiva N° 8467 (Tasas Judiciales)
+        </button>
+        <button type="button" class="law-tab" onclick="cargarLey('ctp', this)">
+          📗 Código Tributario Provincial (Ley N° 5121)
+        </button>
+        <button type="button" class="law-tab" onclick="cargarLey('cpcct', this)">
+          📙 Código Procesal Civil y Comercial (Ley N° 9531)
+        </button>
+        <button type="button" class="law-tab" onclick="cargarLey('cpl', this)">
+          📕 Código Procesal Laboral (Ley N° 6204)
+        </button>
+      </div>
+
+      <div class="viewer-toolbar">
+        <span class="viewer-info" id="leyTitulo">
+          Ley Impositiva N° 8467 — Referencia rápida: Tasas de Justicia en Arts. 41 a 47
+        </span>
+        <a href="#" target="_blank" rel="noopener" class="btn-drive-ext" id="btnAbrirDrive">
+          ↗ Abrir / Descargar PDF completo
+        </a>
+      </div>
+
+      <div class="pdf-frame-wrap">
+        <iframe id="visorPdf" src="" allow="autoplay"></iframe>
+      </div>
+    </section>
+
+    <!-- ÍNDICE DE ARTÍCULOS CLAVE PARA UBICAR RÁPIDO EN LOS PDF -->
+    <section class="ref-card">
+      <h3>Guía Rápida de Ubicación de Artículos en los Textos</h3>
+      <div style="overflow-x:auto;">
+        <table class="norma-table">
+          <thead>
+            <tr>
+              <th>Cuerpo Legal</th>
+              <th>Artículos Clave</th>
+              <th>Tema que Regula</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ley Impositiva N° 8467</strong></td>
+              <td>Arts. 41 a 47</td>
+              <td>Escritos ($1.000 / $500), hojas de actuación ($700), tasas fijas de intimación/embargo/peritos y
+                alícuotas proporcionales (1% y 2%, mínimo $4.200).</td>
+            </tr>
+            <tr>
+              <td><strong>Código Tributario Provincial (Ley N° 5121)</strong></td>
+              <td>Arts. 320 a 335</td>
+              <td>Hechos imponibles de la Tasa de Justicia, base imponible en desalojos (Art. 323 inc. 1), oportunidad
+                de pago y exenciones (Art. 331 inc. 1 trabajador).</td>
+            </tr>
+            <tr>
+              <td><strong>CPCCT (Ley N° 9531)</strong></td>
+              <td>Arts. 76 a 86</td>
+              <td>Beneficio para Litigar sin Gastos (BPLSG), efectos suspensivos de la intimación y mejora de fortuna.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Código Procesal Laboral (Ley N° 6204)</strong></td>
+              <td>Art. 13 (y Art. 20 LCT)</td>
+              <td>Gratuidad del procedimiento laboral para el trabajador y sus derechohabientes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+      <a href="liquidar.html" class="btn-primary-jf"
+        style="text-decoration:none; padding:12px 24px; border-radius:10px;">Ir a los Liquidadores →</a>
+      <a href="index.html" class="btn-secondary-jf"
+        style="text-decoration:none; padding:12px 24px; border-radius:10px;">← Volver al Inicio</a>
+    </div>
+
+    <footer style="text-align:center; margin-top:32px; color:#64748b; font-size:13px;">
       <strong>JUSFISCAL</strong> · Desarrollado por <strong>José Manuel Arnedo</strong> — Poder Judicial de Tucumán
     </footer>
   </div>
+
+  <script>
+    const LEYES_DRIVE = {
+      impositiva: {
+        id: '1o3cLu7qmXtF2CD_Zi4GvQT5Zf-Wg8NFE',
+        info: 'Ley Impositiva N° 8467 — Referencia rápida: Tasas de Justicia en Arts. 41 a 47'
+      },
+      ctp: {
+        id: '1tsUL1CT8MXylMw0nasKramGxgHdJfSvl',
+        info: 'Código Tributario Provincial (Ley N° 5121) — Referencia rápida: Tasas de Justicia en Arts. 320 a 335'
+      },
+      cpcct: {
+        id: '1oqYbxG72_Op-BePG3QHKvWo5ub9A0uKC',
+        info: 'Código Procesal Civil y Comercial (Ley N° 9531) — Referencia rápida: BPLSG en Arts. 76 a 86'
+      },
+      cpl: {
+        id: '1439a2iIy9kqdl5JwgeJwuQ_Cj9Eo9UI7',
+        info: 'Código Procesal Laboral (Ley N° 6204) — Referencia rápida: Gratuidad en Art. 13'
+      }
+    };
+
+    function cargarLey(clave, btn) {
+      document.querySelectorAll('.law-tab').forEach(t => t.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const data = LEYES_DRIVE[clave];
+      document.getElementById('leyTitulo').textContent = data.info;
+      document.getElementById('visorPdf').src = `https://drive.google.com/file/d/${data.id}/preview`;
+      document.getElementById('btnAbrirDrive').href = `https://drive.google.com/file/d/${data.id}/view`;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      cargarLey('impositiva', document.querySelector('.law-tab'));
+    });
+  </script>
 </body>
 
 </html>
